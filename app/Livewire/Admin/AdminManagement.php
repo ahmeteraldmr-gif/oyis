@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\CoachStudent;
 use App\Models\Role;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
