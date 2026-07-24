@@ -71,7 +71,7 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-4 py-4 text-center">
                                 <button wire:click="toggleExpand({{ $admin->id }})" class="text-gray-400 hover:text-blue-600 transition-colors p-1 rounded hover:bg-blue-50">
-                                    @if($expandedAdminId === $admin->id)
+                                    @if($expandedAdminId == $admin->id)
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                         </svg>
@@ -148,7 +148,7 @@
                         </tr>
 
                         <!-- Expanded Coaches Row -->
-                        @if($expandedAdminId === $admin->id)
+                        @if($expandedAdminId == $admin->id)
                             <tr>
                                 <td colspan="7" class="px-6 py-4 bg-blue-50 border-b border-blue-100">
                                     <div class="ml-10">

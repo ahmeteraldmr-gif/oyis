@@ -31,6 +31,7 @@ class AdminManagement extends Component
 
     public function toggleExpand($id)
     {
+        $id = (int) $id;
         $this->expandedAdminId = $this->expandedAdminId === $id ? null : $id;
     }
 
