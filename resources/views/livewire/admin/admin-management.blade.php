@@ -211,8 +211,9 @@
     <div
         x-show="$wire.showModal"
         x-cloak
-        style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;"
+        style="position:fixed;inset:0;z-index:9999;"
     >
+        <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:1rem;">
         {{-- Backdrop --}}
         <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);" wire:click="closeModal"></div>
         {{-- Dialog --}}
@@ -265,6 +266,7 @@
                 </div>
             </form>
         </div>
-    </div>
+        </div>{{-- /flex center --}}
+    </div>{{-- /x-show --}}
 </div>
 
