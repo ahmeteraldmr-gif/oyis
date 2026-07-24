@@ -123,6 +123,10 @@ Route::prefix('coach')->middleware(['auth', 'coach'])->group(function () {
         return view('coach.assign', ['studentId' => $student]);
     })->name('coach.assign');
     
+    Route::get('/student/{student}/quick-schedule', function ($student) {
+        return view('coach.quick-schedule-builder', ['studentId' => $student]);
+    })->name('coach.student.quick-schedule');
+    
     Route::get('/student/{student}/progress', function ($student) {
         return view('coach.progress', ['studentId' => $student]);
     })->name('coach.progress');

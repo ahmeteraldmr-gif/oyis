@@ -63,6 +63,10 @@
                     </svg>
                     Ders Ata
                 </a>
+                <a href="{{ route('coach.student.quick-schedule', $student->id) }}"
+                    class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center gap-1.5 shadow-sm transition">
+                    <span>⚡ Hızlı Program Hazırla</span>
+                </a>
             </div>
         </div>
     </div>

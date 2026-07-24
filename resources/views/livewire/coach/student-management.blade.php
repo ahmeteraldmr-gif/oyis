@@ -106,6 +106,11 @@
                            class="px-3 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 text-center">
                             📊 İlerleme
                         </a>
+                        <a href="{{ route('coach.student.quick-schedule', $student->id) }}" 
+                           onclick="event.stopPropagation()"
+                           class="col-span-2 px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold rounded-lg text-center flex items-center justify-center gap-1 shadow-sm transition">
+                            ⚡ Hızlı Program Hazırla
+                        </a>
                     </div>
                     
                     <div class="flex items-center justify-end space-x-2">
