@@ -196,7 +196,6 @@ class AdminManagement extends Component
             ->with(['subscription.plan'])
             ->withCount([
                 'createdCoaches as coaches_count',
-                'createdStudents as students_count',
             ])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
@@ -209,6 +208,11 @@ class AdminManagement extends Component
             })
             ->latest()
             ->paginate(10);
+
+        foreach ($admins as $admin) {
+            $coachIds = User::where('created_by', $admin->id)->pluck('id');
+            $admin->students_count = CoachStudent::whereIn('coach_id', $coachIds)->distinct('student_id')->count('student_id');
+        }
 
         // Load coaches for expanded admin
         $expandedCoaches = null;

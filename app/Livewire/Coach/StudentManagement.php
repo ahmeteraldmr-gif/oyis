@@ -76,31 +76,19 @@ class StudentManagement extends Component
         $studentRole = Role::where('name', 'student')->first();
         $coach = auth()->user();
 
-        // Abonelik limiti kontrolü (Kurum bazında)
+        // Abonelik limiti kontrolü (Koç paketi bazında)
         if (!$this->editMode) {
-            $admin = User::find($coach->created_by);
-            if ($admin) {
-                $subscription = $admin->subscription;
-                if ($subscription && $subscription->plan && $subscription->plan->student_limit !== null) {
-                    $currentStudentCount = User::where('role_id', $studentRole->id)
-                        ->where('created_by', $admin->id)
-                        ->count();
-                    
-                    if ($currentStudentCount >= $subscription->plan->student_limit) {
-                        session()->flash('error', 'Kurumunuzun öğrenci limitine ulaşıldı. Lütfen yöneticinizle iletişime geçin.');
-                        return;
-                    }
-                }
-            } else {
-                // Eğer koç bağımsızsa (created_by null ise) kendi limitini kontrol et
+            $subscription = $coach->subscription;
+            if (!$subscription && $coach->created_by) {
+                $admin = User::find($coach->created_by);
+                $subscription = $admin?->subscription;
+            }
+
+            if ($subscription && $subscription->plan && $subscription->plan->student_limit !== null) {
                 $currentStudentCount = $coach->students()->count();
-                $subscription = $coach->subscription;
-                
-                if ($subscription && $subscription->plan && $subscription->plan->student_limit !== null) {
-                    if ($currentStudentCount >= $subscription->plan->student_limit) {
-                        session()->flash('error', 'Öğrenci limitine ulaştınız. Paketinizi yükseltmeniz gerekiyor.');
-                        return;
-                    }
+                if ($currentStudentCount >= $subscription->plan->student_limit) {
+                    session()->flash('error', 'Öğrenci limitinize (' . $subscription->plan->student_limit . ' öğrenci) ulaştınız. Paketinizi yükseltmeniz gerekiyor.');
+                    return;
                 }
             }
         }
@@ -127,7 +115,7 @@ class StudentManagement extends Component
                 'password' => Hash::make($this->password),
                 'phone' => $this->phone,
                 'is_active' => $this->is_active,
-                'created_by' => $coach->created_by ?? $coach->id,
+                'created_by' => $coach->id,
             ]);
 
             // Koç-öğrenci ilişkisi oluştur
@@ -195,7 +183,12 @@ class StudentManagement extends Component
             ->paginate(10);
 
         $subscription = $coach->subscription;
-        $studentLimit = $subscription?->plan->student_limit;
+        if (!$subscription && $coach->created_by) {
+            $admin = User::find($coach->created_by);
+            $subscription = $admin?->subscription;
+        }
+
+        $studentLimit = $subscription?->plan?->student_limit;
         $currentCount = $coach->students()->count();
 
         return view('livewire.coach.student-management', [
