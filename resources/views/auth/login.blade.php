@@ -437,9 +437,12 @@
                 <!-- Demo Accounts Fast Selector -->
                 <div style="margin-bottom: 1.5rem;">
                     <label class="input-label" style="font-weight: 700;">Hızlı Giriş Seçenekleri (Demo):</label>
-                    <div class="demo-badge-container">
+                    <div class="demo-badge-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <button type="button" class="demo-badge" onclick="fillCredentials('bozoglanahmet02@gmail.com', 'Abozoglan01.')">
+                            👑 Süper Admin
+                        </button>
                         <button type="button" class="demo-badge" onclick="fillCredentials('admin@ogrenci.com', 'password')">
-                            🔒 Admin
+                            🔒 Admin (Kurum)
                         </button>
                         <button type="button" class="demo-badge" onclick="fillCredentials('coach1@ogrenci.com', 'password')">
                             💼 Koç
