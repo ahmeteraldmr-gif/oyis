@@ -38,6 +38,27 @@ class AssignedCourses extends Component
         }
     }
 
+    public function toggleAssignmentCompletion($assignmentId)
+    {
+        $assignment = StudentAssignment::where('student_id', auth()->id())
+            ->findOrFail($assignmentId);
+
+        $progress = $assignment->progress;
+
+        if ($progress) {
+            $progress->update([
+                'is_completed' => !$progress->is_completed,
+                'completed_at' => !$progress->is_completed ? now() : null,
+            ]);
+        } else {
+            $assignment->progress()->create([
+                'sub_topic_id' => $assignment->sub_topic_id,
+                'is_completed' => true,
+                'completed_at' => now(),
+            ]);
+        }
+    }
+
     public function render()
     {
         // Öğrenciye atanan tüm konular
