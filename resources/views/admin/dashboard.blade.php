@@ -45,7 +45,11 @@
                             Toplam Koç
                         </dt>
                         <dd class="text-2xl font-bold text-gray-900">
-                            {{ \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'coach'))->count() }}
+                            @if(auth()->user()->isSuperAdmin())
+                                {{ \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'coach'))->count() }}
+                            @else
+                                {{ \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'coach'))->where('created_by', auth()->id())->count() }}
+                            @endif
                         </dd>
                     </div>
                 </div>
@@ -66,13 +70,17 @@
                             Toplam Öğrenci
                         </dt>
                         <dd class="text-2xl font-bold text-gray-900">
-                            {{ \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'student'))->count() }}
+                            @if(auth()->user()->isSuperAdmin())
+                                {{ \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'student'))->count() }}
+                            @else
+                                {{ \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'student'))->where('created_by', auth()->id())->count() }}
+                            @endif
                         </dd>
                     </div>
                 </div>
             </div>
 
-            <!-- Active Subscriptions -->
+            <!-- Active Subscriptions / Active Plan -->
             <div class="card">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 rounded-lg p-3" style="background-color: rgba(34, 197, 94, 0.15);">
@@ -82,10 +90,18 @@
                     </div>
                     <div class="ml-5">
                         <dt class="text-sm font-medium text-gray-500 truncate">
-                            Aktif Abonelik
+                            @if(auth()->user()->isSuperAdmin())
+                                Aktif Abonelik
+                            @else
+                                Aktif Paket
+                            @endif
                         </dt>
-                        <dd class="text-2xl font-bold text-gray-900">
-                            {{ \App\Models\Subscription::where('is_active', true)->count() }}
+                        <dd class="text-2xl font-bold text-gray-900 truncate">
+                            @if(auth()->user()->isSuperAdmin())
+                                {{ \App\Models\Subscription::where('is_active', true)->count() }}
+                            @else
+                                {{ auth()->user()->subscription ? auth()->user()->subscription->plan->name : 'Abonelik Yok' }}
+                            @endif
                         </dd>
                     </div>
                 </div>
@@ -134,8 +150,11 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @php
-                            $coaches = \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'coach'))
-                                ->withCount('students')
+                            $coachesQuery = \App\Models\User::whereHas('role', fn($q) => $q->where('name', 'coach'));
+                            if (!auth()->user()->isSuperAdmin()) {
+                                $coachesQuery->where('created_by', auth()->id());
+                            }
+                            $coaches = $coachesQuery->withCount('students')
                                 ->latest()
                                 ->take(5)
                                 ->get();

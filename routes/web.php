@@ -75,6 +75,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
     
+    Route::get('/admins', \App\Livewire\Admin\AdminManagement::class)->name('admin.admins');
+    
     Route::get('/coaches', function () {
         return view('admin.coaches');
     })->name('admin.coaches');

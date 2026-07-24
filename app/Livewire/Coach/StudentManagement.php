@@ -76,15 +76,31 @@ class StudentManagement extends Component
         $studentRole = Role::where('name', 'student')->first();
         $coach = auth()->user();
 
-        // Abonelik limiti kontrolü
+        // Abonelik limiti kontrolü (Kurum bazında)
         if (!$this->editMode) {
-            $currentStudentCount = $coach->students()->count();
-            $subscription = $coach->subscription;
-            
-            if ($subscription && $subscription->plan->student_limit !== null) {
-                if ($currentStudentCount >= $subscription->plan->student_limit) {
-                    session()->flash('error', 'Öğrenci limitine ulaştınız. Paketinizi yükseltmeniz gerekiyor.');
-                    return;
+            $admin = User::find($coach->created_by);
+            if ($admin) {
+                $subscription = $admin->subscription;
+                if ($subscription && $subscription->plan && $subscription->plan->student_limit !== null) {
+                    $currentStudentCount = User::where('role_id', $studentRole->id)
+                        ->where('created_by', $admin->id)
+                        ->count();
+                    
+                    if ($currentStudentCount >= $subscription->plan->student_limit) {
+                        session()->flash('error', 'Kurumunuzun öğrenci limitine ulaşıldı. Lütfen yöneticinizle iletişime geçin.');
+                        return;
+                    }
+                }
+            } else {
+                // Eğer koç bağımsızsa (created_by null ise) kendi limitini kontrol et
+                $currentStudentCount = $coach->students()->count();
+                $subscription = $coach->subscription;
+                
+                if ($subscription && $subscription->plan && $subscription->plan->student_limit !== null) {
+                    if ($currentStudentCount >= $subscription->plan->student_limit) {
+                        session()->flash('error', 'Öğrenci limitine ulaştınız. Paketinizi yükseltmeniz gerekiyor.');
+                        return;
+                    }
                 }
             }
         }
@@ -111,6 +127,7 @@ class StudentManagement extends Component
                 'password' => Hash::make($this->password),
                 'phone' => $this->phone,
                 'is_active' => $this->is_active,
+                'created_by' => $coach->created_by ?? $coach->id,
             ]);
 
             // Koç-öğrenci ilişkisi oluştur

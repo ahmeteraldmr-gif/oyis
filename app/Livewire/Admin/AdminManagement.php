@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CoachManagement extends Component
+class AdminManagement extends Component
 {
     use WithPagination;
 
     // Form properties
     public $showModal = false;
     public $editMode = false;
-    public $coachId;
+    public $adminId;
     public $name;
     public $email;
     public $password;
@@ -32,11 +32,18 @@ class CoachManagement extends Component
 
     protected $queryString = ['search', 'filterStatus'];
 
+    public function mount()
+    {
+        if (!auth()->user()->isSuperAdmin()) {
+            abort(403, 'Bu sayfaya erişim yetkiniz yok.');
+        }
+    }
+
     public function rules()
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $this->coachId,
+            'email' => 'required|email|unique:users,email,' . $this->adminId,
             'phone' => 'nullable|string|max:20',
             'subscription_plan_id' => 'required|exists:subscription_plans,id',
             'is_active' => 'boolean',
@@ -70,7 +77,7 @@ class CoachManagement extends Component
 
     public function resetForm()
     {
-        $this->reset(['coachId', 'name', 'email', 'password', 'phone', 'subscription_plan_id', 'editMode']);
+        $this->reset(['adminId', 'name', 'email', 'password', 'phone', 'subscription_plan_id', 'editMode']);
         $this->is_active = true;
         $this->resetValidation();
     }
@@ -79,34 +86,43 @@ class CoachManagement extends Component
     {
         $this->validate();
 
-        $coachRole = Role::where('name', 'coach')->first();
+        $adminRole = Role::where('name', 'admin')->first();
 
         if ($this->editMode) {
-            $coach = User::findOrFail($this->coachId);
-            $coach->update([
+            $admin = User::findOrFail($this->adminId);
+            $admin->update([
                 'name' => $this->name,
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'is_active' => $this->is_active,
-                'created_by' => auth()->id(),
             ]);
 
             if ($this->password) {
-                $coach->update(['password' => Hash::make($this->password)]);
+                $admin->update(['password' => Hash::make($this->password)]);
             }
 
-            // Update subscription
-            $subscription = $coach->subscription;
+            // Update or create subscription
+            $subscription = $admin->subscription;
             if ($subscription) {
                 $subscription->update([
                     'subscription_plan_id' => $this->subscription_plan_id,
                 ]);
+            } else {
+                Subscription::create([
+                    'user_id' => $admin->id,
+                    'subscription_plan_id' => $this->subscription_plan_id,
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addYear(),
+                    'next_payment_date' => Carbon::now()->addYear(),
+                    'is_active' => true,
+                    'is_trial' => false,
+                ]);
             }
 
-            session()->flash('message', 'Koç başarıyla güncellendi.');
+            session()->flash('message', 'Kurum (Admin) başarıyla güncellendi.');
         } else {
-            $coach = User::create([
-                'role_id' => $coachRole->id,
+            $admin = User::create([
+                'role_id' => $adminRole->id,
                 'name' => $this->name,
                 'email' => $this->email,
                 'password' => Hash::make($this->password),
@@ -117,16 +133,16 @@ class CoachManagement extends Component
 
             // Create subscription
             Subscription::create([
-                'user_id' => $coach->id,
+                'user_id' => $admin->id,
                 'subscription_plan_id' => $this->subscription_plan_id,
                 'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addMonth(),
-                'next_payment_date' => Carbon::now()->addMonth(),
+                'end_date' => Carbon::now()->addYear(),
+                'next_payment_date' => Carbon::now()->addYear(),
                 'is_active' => true,
-                'is_trial' => true,
+                'is_trial' => false,
             ]);
 
-            session()->flash('message', 'Koç başarıyla eklendi.');
+            session()->flash('message', 'Kurum (Admin) başarıyla eklendi.');
         }
 
         $this->closeModal();
@@ -134,39 +150,38 @@ class CoachManagement extends Component
 
     public function edit($id)
     {
-        $coach = User::with('subscription')->findOrFail($id);
+        $admin = User::with('subscription')->findOrFail($id);
         
-        $this->coachId = $coach->id;
-        $this->name = $coach->name;
-        $this->email = $coach->email;
-        $this->phone = $coach->phone;
-        $this->is_active = $coach->is_active;
-        $this->subscription_plan_id = $coach->subscription?->subscription_plan_id;
+        $this->adminId = $admin->id;
+        $this->name = $admin->name;
+        $this->email = $admin->email;
+        $this->phone = $admin->phone;
+        $this->is_active = $admin->is_active;
+        $this->subscription_plan_id = $admin->subscription?->subscription_plan_id;
         $this->editMode = true;
         $this->showModal = true;
     }
 
     public function toggleStatus($id)
     {
-        $coach = User::findOrFail($id);
-        $coach->update(['is_active' => !$coach->is_active]);
+        $admin = User::findOrFail($id);
+        $admin->update(['is_active' => !$admin->is_active]);
         
-        session()->flash('message', 'Koç durumu güncellendi.');
+        session()->flash('message', 'Kurum durumu güncellendi.');
     }
 
     public function delete($id)
     {
         User::findOrFail($id)->delete();
-        session()->flash('message', 'Koç silindi.');
+        session()->flash('message', 'Kurum silindi.');
     }
 
     public function render()
     {
-        $coachRole = Role::where('name', 'coach')->first();
-        $user = auth()->user();
+        $adminRole = Role::where('name', 'admin')->first();
         
-        $coaches = User::where('role_id', $coachRole->id)
-            ->with(['subscription.plan', 'students'])
+        $admins = User::where('role_id', $adminRole->id)
+            ->with(['subscription.plan'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')
@@ -176,17 +191,14 @@ class CoachManagement extends Component
             ->when($this->filterStatus !== '', function ($query) {
                 $query->where('is_active', $this->filterStatus);
             })
-            ->when(!$user->isSuperAdmin(), function ($query) use ($user) {
-                $query->where('created_by', $user->id);
-            })
             ->latest()
             ->paginate(10);
 
         $subscriptionPlans = SubscriptionPlan::where('is_active', true)->get();
 
-        return view('livewire.admin.coach-management', [
-            'coaches' => $coaches,
+        return view('livewire.admin.admin-management', [
+            'admins' => $admins,
             'subscriptionPlans' => $subscriptionPlans,
-        ]);
+        ])->layout('components.layouts.admin');
     }
 }
