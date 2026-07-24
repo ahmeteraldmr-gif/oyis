@@ -209,60 +209,60 @@
 
     <!-- Modal -->
     @if($showModal)
-        <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" wire:click="closeModal"></div>
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div class="relative z-50 inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" onclick="event.stopPropagation()">
-                    <form wire:submit.prevent="save">
-                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4" id="modal-title">
-                                {{ $editMode ? 'Kurum Düzenle' : 'Yeni Kurum Ekle' }}
-                            </h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="form-label">Kurum / Okul Adı</label>
-                                    <input type="text" wire:model="name" class="input-field">
-                                    @error('name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                </div>
-                                <div>
-                                    <label class="form-label">E-posta (Giriş Adresi)</label>
-                                    <input type="email" wire:model="email" class="input-field">
-                                    @error('email') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                </div>
-                                <div>
-                                    <label class="form-label">Şifre {{ $editMode ? '(Değiştirmek istemiyorsanız boş bırakın)' : '' }}</label>
-                                    <input type="password" wire:model="password" class="input-field">
-                                    @error('password') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                </div>
-                                <div>
-                                    <label class="form-label">Telefon</label>
-                                    <input type="text" wire:model="phone" class="input-field">
-                                    @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                </div>
-                                <div>
-                                    <label class="form-label">Abonelik Paketi</label>
-                                    <select wire:model="subscription_plan_id" class="input-field">
-                                        <option value="">Paket Seçin</option>
-                                        @foreach($subscriptionPlans as $plan)
-                                            <option value="{{ $plan->id }}">{{ $plan->name }} ({{ number_format($plan->price, 2) }} TL — Limit: {{ $plan->student_limit ?: 'Sınırsız' }} Öğrenci)</option>
-                                        @endforeach
-                                    </select>
-                                    @error('subscription_plan_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" wire:model="is_active" id="is_active" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <label for="is_active" class="ml-2 block text-sm text-gray-900">Hesap Aktif</label>
-                                </div>
+        <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;">
+            {{-- Backdrop --}}
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);" wire:click="closeModal"></div>
+            {{-- Dialog --}}
+            <div style="position:relative;z-index:10000;background:white;border-radius:0.75rem;box-shadow:0 25px 50px rgba(0,0,0,0.25);width:100%;max-width:32rem;max-height:90vh;overflow-y:auto;">
+                <form wire:submit.prevent="save">
+                    <div style="padding:1.5rem;">
+                        <h3 style="font-size:1.125rem;font-weight:600;color:#111827;margin-bottom:1.25rem;">
+                            {{ $editMode ? 'Kurum Düzenle' : 'Yeni Kurum Ekle' }}
+                        </h3>
+                        <div style="display:flex;flex-direction:column;gap:1rem;">
+                            <div>
+                                <label class="form-label">Kurum / Okul Adı</label>
+                                <input type="text" wire:model="name" class="input-field" placeholder="Örn: ABC Dershanesi">
+                                @error('name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="form-label">E-posta (Giriş Adresi)</label>
+                                <input type="email" wire:model="email" class="input-field" placeholder="admin@kurum.com">
+                                @error('email') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="form-label">Şifre {{ $editMode ? '(Değiştirmek istemiyorsanız boş bırakın)' : '' }}</label>
+                                <input type="password" wire:model="password" class="input-field">
+                                @error('password') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="form-label">Telefon</label>
+                                <input type="text" wire:model="phone" class="input-field" placeholder="05XX XXX XXXX">
+                                @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="form-label">Abonelik Paketi</label>
+                                <select wire:model="subscription_plan_id" class="input-field">
+                                    <option value="">Paket Seçin</option>
+                                    @foreach($subscriptionPlans as $plan)
+                                        <option value="{{ $plan->id }}">{{ $plan->name }} ({{ number_format($plan->price, 2) }} TL — Limit: {{ $plan->student_limit ?: 'Sınırsız' }} Öğrenci)</option>
+                                    @endforeach
+                                </select>
+                                @error('subscription_plan_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                <input type="checkbox" wire:model="is_active" id="is_active_check" style="width:1rem;height:1rem;">
+                                <label for="is_active_check" style="font-size:0.875rem;color:#374151;">Hesap Aktif</label>
                             </div>
                         </div>
-                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
-                            <button type="submit" class="btn-primary">Kaydet</button>
-                            <button type="button" wire:click="closeModal" class="btn-secondary">İptal</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div style="background:#f9fafb;padding:1rem 1.5rem;display:flex;justify-content:flex-end;gap:0.75rem;border-top:1px solid #e5e7eb;">
+                        <button type="button" wire:click="closeModal" class="btn-secondary">İptal</button>
+                        <button type="submit" class="btn-primary">Kaydet</button>
+                    </div>
+                </form>
             </div>
         </div>
     @endif
 </div>
+
