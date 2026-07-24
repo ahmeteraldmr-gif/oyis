@@ -168,6 +168,33 @@ class QuickScheduleBuilder extends Component
         }
     }
 
+    public function incrementQuestionCount($topicId)
+    {
+        $current = isset($this->questionCountsByTopic[$topicId]) ? (int) $this->questionCountsByTopic[$topicId] : 50;
+        $new = $current + 10;
+        $this->questionCountsByTopic[$topicId] = $new;
+
+        $this->syncDraftQuestionCount($topicId, $new);
+    }
+
+    public function decrementQuestionCount($topicId)
+    {
+        $current = isset($this->questionCountsByTopic[$topicId]) ? (int) $this->questionCountsByTopic[$topicId] : 50;
+        $new = max(0, $current - 10);
+        $this->questionCountsByTopic[$topicId] = $new;
+
+        $this->syncDraftQuestionCount($topicId, $new);
+    }
+
+    protected function syncDraftQuestionCount($topicId, $count)
+    {
+        foreach ($this->draftItems as &$item) {
+            if ($item['topic_id'] == $topicId) {
+                $item['question_count'] = $count;
+            }
+        }
+    }
+
     public function updated($property, $value)
     {
         // Real-time synchronization when inline question count inputs are modified
@@ -175,11 +202,7 @@ class QuickScheduleBuilder extends Component
             $topicId = str_replace('questionCountsByTopic.', '', $property);
             $newCount = (int) $value;
 
-            foreach ($this->draftItems as &$item) {
-                if ($item['topic_id'] == $topicId) {
-                    $item['question_count'] = $newCount;
-                }
-            }
+            $this->syncDraftQuestionCount($topicId, $newCount);
         }
     }
 

@@ -56,7 +56,10 @@
                             <span class="text-[10px] font-bold text-purple-600 uppercase tracking-widest block mb-2">TYT Dersleri</span>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($courses['tyt'] as $c)
-                                    <button type="button" wire:click="selectCourse({{ $c->id }})" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition {{ $selectedCourseId == $c->id ? 'bg-purple-600 border-purple-600 text-white shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-purple-50 hover:border-purple-200 hover:text-purple-700' }}">
+                                    <button type="button" 
+                                            wire:click="selectCourse({{ $c->id }})" 
+                                            wire:key="course-tab-tyt-{{ $c->id }}"
+                                            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition {{ $selectedCourseId == $c->id ? 'bg-purple-600 border-purple-600 text-white shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-purple-50 hover:border-purple-200 hover:text-purple-700' }}">
                                         {{ $c->name }}
                                     </button>
                                 @endforeach
@@ -69,7 +72,10 @@
                             <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest block mb-2">AYT Dersleri</span>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($courses['ayt'] as $c)
-                                    <button type="button" wire:click="selectCourse({{ $c->id }})" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition {{ $selectedCourseId == $c->id ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-700' }}">
+                                    <button type="button" 
+                                            wire:click="selectCourse({{ $c->id }})" 
+                                            wire:key="course-tab-ayt-{{ $c->id }}"
+                                            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition {{ $selectedCourseId == $c->id ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-700' }}">
                                         {{ $c->name }}
                                     </button>
                                 @endforeach
@@ -82,7 +88,10 @@
                             <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest block mb-2">Diğer Dersler</span>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($courses['other'] as $c)
-                                    <button type="button" wire:click="selectCourse({{ $c->id }})" class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition {{ $selectedCourseId == $c->id ? 'bg-blue-600 border-blue-600 text-white shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700' }}">
+                                    <button type="button" 
+                                            wire:click="selectCourse({{ $c->id }})" 
+                                            wire:key="course-tab-other-{{ $c->id }}"
+                                            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition {{ $selectedCourseId == $c->id ? 'bg-blue-600 border-blue-600 text-white shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700' }}">
                                         {{ $c->name }}
                                     </button>
                                 @endforeach
@@ -92,80 +101,105 @@
                 </div>
             </div>
 
-            <!-- Topics Grid Table -->
+            <!-- Topics Grid Card List -->
             @if($selectedCourseId)
                 @php
                     $activeCourse = collect($courses)->flatten()->firstWhere('id', $selectedCourseId);
+                    $daysConfig = [
+                        1 => 'Pzt',
+                        2 => 'Sal',
+                        3 => 'Çar',
+                        4 => 'Per',
+                        5 => 'Cum',
+                        6 => 'Cmt',
+                        7 => 'Paz'
+                    ];
                 @endphp
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 space-y-4">
-                    <div class="flex items-center justify-between border-b border-gray-100 pb-3 flex-wrap gap-2">
+                
+                <div class="relative space-y-4">
+                    <!-- Loading overlay -->
+                    <div wire:loading wire:target="selectCourse, toggleDayForTopic, incrementQuestionCount, decrementQuestionCount" 
+                         class="absolute inset-0 bg-white/70 backdrop-blur-xs flex items-center justify-center z-10 rounded-xl transition duration-200">
+                        <div class="flex items-center gap-2.5 px-4 py-2 bg-white rounded-lg shadow-md border border-gray-100">
+                            <svg class="animate-spin h-5 w-5 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span class="text-xs font-semibold text-gray-700">Güncelleniyor...</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-2 flex-wrap gap-2">
                         <h3 class="text-md font-bold text-gray-900 flex items-center gap-2">
                             <span class="p-1 bg-purple-100 text-purple-700 rounded-md">⚡</span>
-                            <span>{{ $activeCourse ? $activeCourse->name : '' }} Konu Listesi</span>
+                            <span>{{ $activeCourse ? $activeCourse->name : '' }} Konuları</span>
                         </h3>
-                        <span class="text-xs text-gray-500 italic">
-                            * Gün dairelerine tıklayarak anında program taslağına ekleyin veya kaldırın.
+                        <span class="text-xs text-gray-400 italic">
+                            * Günlere dokunarak anında ders programı oluşturun.
                         </span>
                     </div>
 
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-100 text-sm">
-                            <thead>
-                                <tr class="text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                    <th class="py-2.5 pr-4">Konu Adı</th>
-                                    <th class="py-2.5 px-3 text-center" style="width: 100px;">Soru Sayısı</th>
-                                    <th class="py-2.5 pl-4 text-center">Görevi Ekleneceği Günler (Tıkla - Tanımla)</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-50">
-                                @forelse($topics as $topic)
-                                    <tr class="hover:bg-gray-50/50 transition">
-                                        <td class="py-3.5 pr-4 font-semibold text-gray-900">
-                                            {{ $topic->name }}
-                                        </td>
-                                        <td class="py-3.5 px-3">
-                                            <input type="number" 
-                                                   wire:model.live.debounce.300ms="questionCountsByTopic.{{ $topic->id }}" 
-                                                   class="w-20 text-center border border-gray-300 rounded-lg px-2 py-1 text-xs font-bold focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-50/50"
-                                                   min="0"
-                                                   title="Varsayılan Soru Sayısı">
-                                        </td>
-                                        <td class="py-3.5 pl-4">
-                                            <div class="flex items-center justify-center gap-1.5">
-                                                @php
-                                                    $daysConfig = [
-                                                        1 => 'Pzt',
-                                                        2 => 'Sal',
-                                                        3 => 'Çar',
-                                                        4 => 'Per',
-                                                        5 => 'Cum',
-                                                        6 => 'Cmt',
-                                                        7 => 'Paz'
-                                                    ];
-                                                @endphp
-                                                @foreach($daysConfig as $dayNum => $dayLabel)
-                                                    @php
-                                                        $isDayActive = collect($draftItems)->where('topic_id', $topic->id)->where('day_of_week', $dayNum)->isNotEmpty();
-                                                    @endphp
-                                                    <button type="button" 
-                                                            wire:click="toggleDayForTopic({{ $topic->id }}, {{ $dayNum }})"
-                                                            class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition duration-150 transform hover:scale-105 active:scale-95 {{ $isDayActive ? 'bg-gradient-to-br from-purple-600 to-indigo-600 text-white shadow-xs font-extrabold scale-105 border-transparent' : 'bg-gray-100 hover:bg-purple-100 hover:text-purple-700 text-gray-600 border border-gray-200' }}"
-                                                            title="{{ $dayLabel }} günü için bu konuyu programla">
-                                                        {{ $dayLabel }}
-                                                    </button>
-                                                @endforeach
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="py-8 text-center text-gray-400 italic">
-                                            Bu derse ait aktif konu bulunamadı.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <!-- Topics Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @forelse($topics as $topic)
+                            <div wire:key="topic-card-{{ $topic->id }}" 
+                                 class="bg-white rounded-xl shadow-xs border border-gray-100 p-4 hover:shadow-md hover:border-purple-200 transition-all duration-200 flex flex-col justify-between space-y-3.5">
+                                
+                                <!-- Card Header -->
+                                <div>
+                                    <h4 class="text-sm font-bold text-gray-900 leading-snug">
+                                        {{ $topic->name }}
+                                    </h4>
+                                </div>
+
+                                <!-- Question Count Adjustment Selector -->
+                                <div class="flex items-center justify-between bg-gray-50 p-2 rounded-lg border border-gray-100/50">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Hedef Soru</span>
+                                    <div class="flex items-center gap-1">
+                                        <button type="button" 
+                                                wire:click="decrementQuestionCount({{ $topic->id }})"
+                                                wire:key="dec-btn-{{ $topic->id }}"
+                                                class="w-7 h-7 rounded-md bg-white border border-gray-200 hover:border-purple-300 hover:bg-purple-50 flex items-center justify-center text-gray-600 font-bold text-xs transition active:scale-95">-</button>
+                                        
+                                        <input type="number" 
+                                               wire:model.live.debounce.500ms="questionCountsByTopic.{{ $topic->id }}" 
+                                               wire:key="input-count-{{ $topic->id }}"
+                                               class="w-12 text-center border-0 bg-transparent p-0 font-bold text-xs text-gray-800 focus:ring-0">
+                                        
+                                        <button type="button" 
+                                                wire:click="incrementQuestionCount({{ $topic->id }})"
+                                                wire:key="inc-btn-{{ $topic->id }}"
+                                                class="w-7 h-7 rounded-md bg-white border border-gray-200 hover:border-purple-300 hover:bg-purple-50 flex items-center justify-center text-gray-600 font-bold text-xs transition active:scale-95">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Weekday Assignment Circular Selectors -->
+                                <div class="space-y-1.5">
+                                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Gün Planlama</span>
+                                    <div class="grid grid-cols-7 gap-1">
+                                        @foreach($daysConfig as $dayNum => $dayLabel)
+                                            @php
+                                                $isDayActive = collect($draftItems)->where('topic_id', $topic->id)->where('day_of_week', $dayNum)->isNotEmpty();
+                                            @endphp
+                                            <button type="button" 
+                                                    wire:click="toggleDayForTopic({{ $topic->id }}, {{ $dayNum }})"
+                                                    wire:key="topic-{{ $topic->id }}-day-{{ $dayNum }}"
+                                                    class="h-8 rounded-lg flex flex-col items-center justify-center text-[10px] font-bold border transition-all duration-150 transform active:scale-90 {{ $isDayActive ? 'bg-gradient-to-br from-purple-600 to-indigo-600 text-white border-transparent shadow-xs scale-105' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-purple-50 hover:border-purple-200 hover:text-purple-700' }}">
+                                                <span>{{ $dayLabel }}</span>
+                                                @if($isDayActive)
+                                                    <span class="text-[8px] leading-none mt-0.5">✓</span>
+                                                @endif
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                            </div>
+                        @empty
+                            <div class="col-span-2 bg-white rounded-xl border border-gray-100 p-8 text-center text-gray-400 italic text-sm">
+                                Bu derse ait aktif konu bulunamadı.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             @endif
@@ -225,7 +259,7 @@
                         <span class="p-1.5 bg-indigo-100 text-indigo-600 rounded-lg text-xs">📅</span>
                         Program Taslağı
                     </span>
-                    <span class="text-xs font-semibold bg-purple-100 text-purple-700 px-2.5 py-0.5 rounded-full">
+                    <span class="text-xs font-semibold bg-purple-100 text-purple-700 px-2.5 py-0.5 rounded-full animate-pulse">
                         {{ count($draftItems) }} Görev
                     </span>
                 </h3>
@@ -253,7 +287,7 @@
                         @php
                             $dayDrafts = collect($this->draftItems)->where('day_of_week', $dayNum);
                         @endphp
-                        <div class="border border-gray-100 rounded-lg p-2.5 bg-gray-50/50">
+                        <div wire:key="preview-day-group-{{ $dayNum }}" class="border border-gray-100 rounded-lg p-2.5 bg-gray-50/50">
                             <div class="flex items-center justify-between mb-1.5">
                                 <h4 class="text-xs font-bold text-gray-800 flex items-center gap-1">
                                     <span class="w-2 h-2 rounded-full bg-purple-500"></span>
@@ -271,7 +305,8 @@
                             @else
                                 <div class="space-y-1.5">
                                     @foreach($dayDrafts as $item)
-                                        <div class="bg-white border border-gray-100 rounded-md p-2 flex items-start justify-between shadow-xs">
+                                        <div wire:key="preview-item-card-{{ $item['temp_id'] }}" 
+                                             class="bg-white border border-gray-100 rounded-md p-2 flex items-start justify-between shadow-xs">
                                             <div class="flex-1 min-w-0 pr-1 space-y-0.5">
                                                 <div class="flex items-center gap-1 flex-wrap">
                                                     <span class="px-1 py-0.2 bg-blue-50 text-blue-700 rounded text-[9px] font-bold uppercase">
@@ -287,7 +322,11 @@
                                                     {{ $item['topic_name'] }}
                                                 </h5>
                                             </div>
-                                            <button type="button" wire:click="removeFromDraft('{{ $item['temp_id'] }}')" class="text-red-400 hover:text-red-600 hover:bg-red-50 p-0.5 rounded transition" title="Görevi kaldır">
+                                            <button type="button" 
+                                                    wire:click="removeFromDraft('{{ $item['temp_id'] }}')" 
+                                                    wire:key="remove-btn-{{ $item['temp_id'] }}"
+                                                    class="text-red-400 hover:text-red-600 hover:bg-red-50 p-0.5 rounded transition" 
+                                                    title="Görevi kaldır">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
