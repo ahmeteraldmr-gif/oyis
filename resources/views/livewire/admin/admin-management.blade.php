@@ -209,6 +209,7 @@
 
     <!-- Modal -->
     @if($showModal)
+        <div x-teleport="body">
         <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;">
             {{-- Backdrop --}}
             <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);" wire:click="closeModal"></div>
@@ -263,6 +264,7 @@
                 </form>
             </div>
         </div>
+        </div>{{-- /x-teleport --}}
     @endif
 </div>
 
