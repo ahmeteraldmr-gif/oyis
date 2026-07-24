@@ -68,17 +68,19 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($admins as $admin)
                         <!-- Main Row -->
-                        <tr class="hover:bg-gray-50 cursor-pointer" wire:click="toggleExpand({{ $admin->id }})">
-                            <td class="px-4 py-4 text-gray-400 text-center">
-                                @if($expandedAdminId === $admin->id)
-                                    <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                    </svg>
-                                @else
-                                    <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                    </svg>
-                                @endif
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-4 text-center">
+                                <button wire:click="toggleExpand({{ $admin->id }})" class="text-gray-400 hover:text-blue-600 transition-colors p-1 rounded hover:bg-blue-50">
+                                    @if($expandedAdminId === $admin->id)
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                        </svg>
+                                    @else
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    @endif
+                                </button>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
