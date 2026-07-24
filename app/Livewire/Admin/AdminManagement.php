@@ -26,6 +26,14 @@ class AdminManagement extends Component
     public $subscription_plan_id;
     public $is_active = true;
 
+    // Expanded row for coach details
+    public $expandedAdminId = null;
+
+    public function toggleExpand($id)
+    {
+        $this->expandedAdminId = $this->expandedAdminId === $id ? null : $id;
+    }
+
     // Search & Filter
     public $search = '';
     public $filterStatus = '';
@@ -180,8 +188,15 @@ class AdminManagement extends Component
     {
         $adminRole = Role::where('name', 'admin')->first();
         
+        $coachRole = Role::where('name', 'coach')->first();
+        $studentRole = Role::where('name', 'student')->first();
+
         $admins = User::where('role_id', $adminRole->id)
             ->with(['subscription.plan'])
+            ->withCount([
+                'createdCoaches as coaches_count',
+                'createdStudents as students_count',
+            ])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')
@@ -194,11 +209,21 @@ class AdminManagement extends Component
             ->latest()
             ->paginate(10);
 
+        // Load coaches for expanded admin
+        $expandedCoaches = null;
+        if ($this->expandedAdminId) {
+            $expandedCoaches = User::where('role_id', $coachRole->id)
+                ->where('created_by', $this->expandedAdminId)
+                ->withCount('students')
+                ->get();
+        }
+
         $subscriptionPlans = SubscriptionPlan::where('is_active', true)->get();
 
         return view('livewire.admin.admin-management', [
             'admins' => $admins,
             'subscriptionPlans' => $subscriptionPlans,
+            'expandedCoaches' => $expandedCoaches,
         ])->layout('components.layouts.admin');
     }
 }

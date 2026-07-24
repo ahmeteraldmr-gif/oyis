@@ -115,6 +115,20 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    // Kuruma (admin) ait koçlar
+    public function createdCoaches(): HasMany
+    {
+        return $this->hasMany(User::class, 'created_by')
+            ->whereHas('role', fn($q) => $q->where('name', 'coach'));
+    }
+
+    // Kuruma (admin) ait öğrenciler
+    public function createdStudents(): HasMany
+    {
+        return $this->hasMany(User::class, 'created_by')
+            ->whereHas('role', fn($q) => $q->where('name', 'student'));
+    }
+
     // Helper Methods
     public function isAdmin(): bool
     {
