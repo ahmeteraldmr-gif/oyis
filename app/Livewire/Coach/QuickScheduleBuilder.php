@@ -5,7 +5,6 @@ namespace App\Livewire\Coach;
 use App\Models\Course;
 use App\Models\ScheduleItem;
 use App\Models\StudySchedule;
-use App\Models\SubTopic;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -24,19 +23,14 @@ class QuickScheduleBuilder extends Component
     public $scheduleType = 'daily'; // 'daily' (saatsiz) or 'timed' (saatli)
     public $isActive = true;
 
-    // Form inputs for task creation
-    public $selectedCourseId = '';
-    public $selectedTopicId = '';
-    public $selectedSubTopicId = '';
-    public $questionCount = 50;
-    public $description = '';
-    public $selectedDays = []; // Day numbers: 1 = Pazartesi, 2 = Salı, ..., 7 = Pazar
-    public $timeSlot = '09:00-10:00'; // Default for timed schedules
+    // Inline assignment inputs
+    public $selectedCourseId;
+    public $questionCountsByTopic = []; // topic_id => count
+    public $timeSlot = '09:00-10:00'; // Default time slot if timed schedule is selected
 
-    // Dropdown lists
+    // Lists
     public $courses = [];
     public $topics = [];
-    public $subTopics = [];
 
     // Draft list
     public $draftItems = [];
@@ -75,11 +69,24 @@ class QuickScheduleBuilder extends Component
         $this->scheduleName = "{$this->student->name} - {$this->weekNumber}. Hafta Programı";
 
         $this->loadCourses();
+
+        // Auto-select the first course on load
+        $firstCourseId = null;
+        if (!empty($this->courses['tyt']) && count($this->courses['tyt']) > 0) {
+            $firstCourseId = $this->courses['tyt']->first()->id;
+        } elseif (!empty($this->courses['ayt']) && count($this->courses['ayt']) > 0) {
+            $firstCourseId = $this->courses['ayt']->first()->id;
+        } elseif (!empty($this->courses['other']) && count($this->courses['other']) > 0) {
+            $firstCourseId = $this->courses['other']->first()->id;
+        }
+
+        if ($firstCourseId) {
+            $this->selectCourse($firstCourseId);
+        }
     }
 
     public function loadCourses()
     {
-        // Fetch and group courses (similar to ScheduleBuilder)
         $allCourses = Course::where('is_active', true)
             ->with('field')
             ->orderBy('name')
@@ -106,80 +113,74 @@ class QuickScheduleBuilder extends Component
         ];
     }
 
-    public function updatedSelectedCourseId($value)
+    public function selectCourse($courseId)
     {
-        $this->topics = [];
-        $this->selectedTopicId = '';
-        $this->subTopics = [];
-        $this->selectedSubTopicId = '';
+        $this->selectedCourseId = $courseId;
+        $this->topics = Topic::where('course_id', $courseId)
+            ->where('is_active', true)
+            ->orderBy('order')
+            ->get();
 
-        if ($value) {
-            $this->topics = Topic::where('course_id', $value)
-                ->where('is_active', true)
-                ->orderBy('order')
-                ->get();
+        foreach ($this->topics as $topic) {
+            if (!isset($this->questionCountsByTopic[$topic->id])) {
+                $this->questionCountsByTopic[$topic->id] = 50; // Default count
+            }
         }
     }
 
-    public function updatedSelectedTopicId($value)
+    public function toggleDayForTopic($topicId, $dayNum)
     {
-        $this->subTopics = [];
-        $this->selectedSubTopicId = '';
-
-        if ($value) {
-            $this->subTopics = SubTopic::where('topic_id', $value)
-                ->where('is_active', true)
-                ->orderBy('order')
-                ->get();
-        }
-    }
-
-    public function addToDraft()
-    {
-        $this->validate([
-            'selectedCourseId' => 'required|exists:courses,id',
-            'selectedTopicId' => 'required|exists:topics,id',
-            'selectedSubTopicId' => 'nullable|exists:sub_topics,id',
-            'questionCount' => 'required|integer|min:0',
-            'description' => 'nullable|string|max:500',
-            'selectedDays' => 'required|array|min:1',
-            'timeSlot' => 'required_if:scheduleType,timed|string',
-        ], [
-            'selectedCourseId.required' => 'Lütfen bir ders seçin.',
-            'selectedTopicId.required' => 'Lütfen bir konu seçin.',
-            'selectedDays.required' => 'En az bir gün seçmelisiniz.',
-            'selectedDays.min' => 'En az bir gün seçmelisiniz.',
-        ]);
-
         $course = Course::find($this->selectedCourseId);
-        $topic = Topic::find($this->selectedTopicId);
-        $subTopic = $this->selectedSubTopicId ? SubTopic::find($this->selectedSubTopicId) : null;
+        $topic = Topic::find($topicId);
 
-        // Add to draft for each selected day
-        foreach ($this->selectedDays as $dayNum) {
-            $tempId = uniqid('item_');
+        if (!$course || !$topic) return;
+
+        // Check if this topic is already assigned to this day in the draft
+        $existingIndex = null;
+        foreach ($this->draftItems as $index => $item) {
+            if ($item['topic_id'] == $topicId && $item['day_of_week'] == $dayNum) {
+                $existingIndex = $index;
+                break;
+            }
+        }
+
+        if ($existingIndex !== null) {
+            // Toggle off: remove from draft
+            unset($this->draftItems[$existingIndex]);
+            $this->draftItems = array_values($this->draftItems);
+        } else {
+            // Toggle on: add to draft
+            $count = isset($this->questionCountsByTopic[$topicId]) ? (int) $this->questionCountsByTopic[$topicId] : 50;
+            
             $this->draftItems[] = [
-                'temp_id' => $tempId,
+                'temp_id' => uniqid('item_'),
                 'day_of_week' => (int) $dayNum,
                 'course_id' => $course->id,
                 'course_name' => $course->name,
                 'topic_id' => $topic->id,
                 'topic_name' => $topic->name,
-                'sub_topic_id' => $subTopic ? $subTopic->id : null,
-                'sub_topic_name' => $subTopic ? $subTopic->name : 'Tüm Alt Başlıklar',
-                'question_count' => (int) $this->questionCount,
-                'description' => $this->description,
+                'sub_topic_id' => null,
+                'sub_topic_name' => 'Tüm Alt Başlıklar',
+                'question_count' => $count,
+                'description' => '',
                 'time_slot' => $this->scheduleType === 'timed' ? $this->timeSlot : null,
             ];
         }
+    }
 
-        // Reset inputs but keep course selected for faster multiple entry
-        $this->reset(['selectedTopicId', 'selectedSubTopicId', 'description', 'selectedDays']);
-        $this->topics = Topic::where('course_id', $this->selectedCourseId)->where('is_active', true)->orderBy('order')->get();
-        $this->subTopics = [];
-        $this->questionCount = 50;
+    public function updated($property, $value)
+    {
+        // Real-time synchronization when inline question count inputs are modified
+        if (str_starts_with($property, 'questionCountsByTopic.')) {
+            $topicId = str_replace('questionCountsByTopic.', '', $property);
+            $newCount = (int) $value;
 
-        session()->flash('draft_success', 'Görev(ler) taslağa eklendi.');
+            foreach ($this->draftItems as &$item) {
+                if ($item['topic_id'] == $topicId) {
+                    $item['question_count'] = $newCount;
+                }
+            }
+        }
     }
 
     public function removeFromDraft($tempId)
@@ -202,8 +203,8 @@ class QuickScheduleBuilder extends Component
             'draftItems' => 'required|array|min:1',
         ], [
             'scheduleName.required' => 'Program adı boş bırakılamaz.',
-            'draftItems.required' => 'Lütfen en az bir ders/konu görevi ekleyin.',
-            'draftItems.min' => 'Lütfen en az bir ders/konu görevi ekleyin.',
+            'draftItems.required' => 'Lütfen en az bir gün için ders planlaması yapın.',
+            'draftItems.min' => 'Lütfen en az bir gün için ders planlaması yapın.',
         ]);
 
         DB::beginTransaction();
