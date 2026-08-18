@@ -96,7 +96,6 @@
                 <a href="#nedir" class="hover:text-indigo-600 transition">Nedir?</a>
                 <a href="#neden-var" class="hover:text-indigo-600 transition">Neden RehberKoçum?</a>
                 <a href="#ozellikler" class="hover:text-indigo-600 transition">Özellikler</a>
-                <a href="#paketler" class="hover:text-indigo-600 transition">Paketler</a>
             </nav>
             
             <div class="flex items-center space-x-4">
@@ -234,92 +233,7 @@
             </div>
         </section>
 
-        <!-- Subscription Packages -->
-        <section id="paketler" class="space-y-12">
-            <div class="text-center space-y-4 max-w-3xl mx-auto">
-                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Bütçenize Uygun Seçenekler</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Abonelik Paketleri</h2>
-                <p class="text-slate-600">İhtiyacınıza uygun paketi seçin, öğrencilerinizi akıllı sistemle takip etmeye hemen başlayın.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Package 1: Başlangıç -->
-                <div class="premium-card rounded-3xl p-6 flex flex-col justify-between space-y-6">
-                    <div class="space-y-3">
-                        <span class="text-xs font-bold text-slate-400 uppercase">Başlangıç</span>
-                        <h3 class="text-3xl font-black text-slate-900">₺300<span class="text-xs font-medium text-slate-400">/ay</span></h3>
-                        <p class="text-xs text-slate-500">Bireysel ve küçük ölçekli koçluk yapanlar için ideal.</p>
-                        <hr class="border-slate-100">
-                        <ul class="text-xs space-y-2.5 text-slate-600">
-                            <li>✔️ <strong>10 Öğrenciye Kadar</strong> Kayıt</li>
-                            <li>✔️ Hiyerarşik Ders & Konu Takibi</li>
-                            <li>✔️ Haftalık Program Hazırlama</li>
-                            <li>✔️ Soru Çözüm Analizi</li>
-                            <li>❌ Detaylı PDF Raporlama</li>
-                        </ul>
-                    </div>
-                    <button class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition border-0 cursor-pointer">Paketi Seç</button>
-                </div>
-
-                <!-- Package 2: Standart -->
-                <div class="premium-card rounded-3xl p-6 flex flex-col justify-between space-y-6">
-                    <div class="space-y-3">
-                        <span class="text-xs font-bold text-slate-400 uppercase">Standart</span>
-                        <h3 class="text-3xl font-black text-slate-900">₺800<span class="text-xs font-medium text-slate-400">/ay</span></h3>
-                        <p class="text-xs text-slate-500">Genişleyen öğrenci portföyleri için en dengeli paket.</p>
-                        <hr class="border-slate-100">
-                        <ul class="text-xs space-y-2.5 text-slate-600">
-                            <li>✔️ <strong>25 Öğrenciye Kadar</strong> Kayıt</li>
-                            <li>✔️ Hiyerarşik Ders & Konu Takibi</li>
-                            <li>✔️ Haftalık Program Hazırlama</li>
-                            <li>✔️ Soru Çözüm Analizi</li>
-                            <li>✔️ Deneme Sonuçları & Analiz</li>
-                            <li>✔️ PDF Rapor İndirme</li>
-                        </ul>
-                    </div>
-                    <button class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition border-0 cursor-pointer">Paketi Seç</button>
-                </div>
-
-                <!-- Package 3: Premium -->
-                <div class="premium-card rounded-3xl p-6 flex flex-col justify-between space-y-6 relative overflow-hidden border-indigo-200">
-                    <div class="absolute top-0 right-0 bg-indigo-600 text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">Popüler</div>
-                    <div class="space-y-3">
-                        <span class="text-xs font-bold text-indigo-500 uppercase">Premium</span>
-                        <h3 class="text-3xl font-black text-slate-900">₺999<span class="text-xs font-medium text-slate-400">/ay</span></h3>
-                        <p class="text-xs text-slate-500">Profesyonel koçlar ve butik kurs merkezleri için tam güç.</p>
-                        <hr class="border-slate-100">
-                        <ul class="text-xs space-y-2.5 text-slate-600">
-                            <li>✔️ <strong>50 Öğrenciye Kadar</strong> Kayıt</li>
-                            <li>✔️ Tüm Standart Özellikler</li>
-                            <li>✔️ Akıllı Gelişim Grafikleri</li>
-                            <li>✔️ Sınav Karşılaştırma Modülü</li>
-                            <li>✔️ PDF Rapor Çıktıları</li>
-                            <li>✔️ 7/24 Teknik Destek</li>
-                        </ul>
-                    </div>
-                    <button class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition border-0 cursor-pointer">Paketi Seç</button>
-                </div>
-
-                <!-- Package 4: Sınırsız -->
-                <div class="premium-card rounded-3xl p-6 flex flex-col justify-between space-y-6 relative overflow-hidden bg-slate-900 border-slate-800 text-white">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.15),transparent_60%)]"></div>
-                    <div class="space-y-3 z-10">
-                        <span class="text-xs font-bold text-emerald-400 uppercase">Kurumsal / Sınırsız</span>
-                        <h3 class="text-3xl font-black text-white">₺1250<span class="text-xs font-medium text-slate-500">/ay</span></h3>
-                        <p class="text-xs text-slate-400">Kurumlar ve en üst düzey takip gücü arayanlar için.</p>
-                        <hr class="border-slate-850">
-                        <ul class="text-xs space-y-2.5 text-slate-300">
-                            <li>✔️ <strong>100 Öğrenciye Kadar</strong> Kayıt</li>
-                            <li>✔️ Tüm Sistem Özellikleri Aktif</li>
-                            <li>✔️ Öncelikli Altyapı ve Sunucu</li>
-                            <li>✔️ Kurumsal Raporlama Şablonu</li>
-                            <li>✔️ Özel Müşteri Temsilcisi</li>
-                        </ul>
-                    </div>
-                    <button class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition z-10 border-0 cursor-pointer">İletişime Geç</button>
-                </div>
-            </div>
-        </section>
+        {{-- Subscription Packages (Geçici olarak kaldırıldı) --}}
     </main>
 
     <!-- Footer Section -->
