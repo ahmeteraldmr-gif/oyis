@@ -38,7 +38,7 @@ class CoachManagement extends Component
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->coachId,
             'phone' => 'nullable|string|max:20',
-            'subscription_plan_id' => 'required|exists:subscription_plans,id',
+            'subscription_plan_id' => 'nullable|exists:subscription_plans,id',
             'is_active' => 'boolean',
         ];
 
@@ -95,12 +95,14 @@ class CoachManagement extends Component
                 $coach->update(['password' => Hash::make($this->password)]);
             }
 
-            // Update subscription
-            $subscription = $coach->subscription;
-            if ($subscription) {
-                $subscription->update([
-                    'subscription_plan_id' => $this->subscription_plan_id,
-                ]);
+            // Update subscription if present
+            if ($this->subscription_plan_id) {
+                $subscription = $coach->subscription;
+                if ($subscription) {
+                    $subscription->update([
+                        'subscription_plan_id' => $this->subscription_plan_id,
+                    ]);
+                }
             }
 
             session()->flash('message', 'Koç başarıyla güncellendi.');
@@ -115,16 +117,18 @@ class CoachManagement extends Component
                 'created_by' => auth()->id(),
             ]);
 
-            // Create subscription
-            Subscription::create([
-                'user_id' => $coach->id,
-                'subscription_plan_id' => $this->subscription_plan_id,
-                'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addMonth(),
-                'next_payment_date' => Carbon::now()->addMonth(),
-                'is_active' => true,
-                'is_trial' => true,
-            ]);
+            // Create subscription if specified
+            if ($this->subscription_plan_id) {
+                Subscription::create([
+                    'user_id' => $coach->id,
+                    'subscription_plan_id' => $this->subscription_plan_id,
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addMonth(),
+                    'next_payment_date' => Carbon::now()->addMonth(),
+                    'is_active' => true,
+                    'is_trial' => true,
+                ]);
+            }
 
             session()->flash('message', 'Koç başarıyla eklendi.');
         }

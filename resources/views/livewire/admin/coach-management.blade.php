@@ -96,7 +96,7 @@
                                         {{ $coach->subscription->end_date->format('d.m.Y') }} tarihine kadar
                                     </div>
                                 @else
-                                    <span class="text-xs text-red-600">Abonelik Yok</span>
+                                    <span class="text-xs font-medium text-green-600">Sınırsız / Aktif</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -213,7 +213,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Abonelik Paketi *
+                                Abonelik Paketi (İsteğe Bağlı)
                             </label>
                             <select wire:model="subscription_plan_id" class="input-field">
                                 <option value="">Paket Seçin</option>

@@ -120,7 +120,7 @@
                                         Limit: {{ $admin->subscription->plan->student_limit ?: 'Sınırsız' }} Öğrenci
                                     </div>
                                 @else
-                                    <span class="text-xs text-red-600">Abonelik Yok</span>
+                                    <span class="text-xs font-medium text-green-600">Sınırsız / Aktif</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -245,7 +245,7 @@
                             @error('phone') <span style="color:#ef4444;font-size:0.75rem;">{{ $message }}</span> @enderror
                         </div>
                         <div>
-                            <label class="form-label">Abonelik Paketi</label>
+                            <label class="form-label">Abonelik Paketi (İsteğe Bağlı)</label>
                             <select wire:model="subscription_plan_id" class="input-field">
                                 <option value="">Paket Seçin</option>
                                 @foreach($subscriptionPlans as $plan)

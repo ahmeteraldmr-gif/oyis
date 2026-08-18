@@ -55,7 +55,7 @@ class AdminManagement extends Component
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->adminId,
             'phone' => 'nullable|string|max:20',
-            'subscription_plan_id' => 'required|exists:subscription_plans,id',
+            'subscription_plan_id' => 'nullable|exists:subscription_plans,id',
             'is_active' => 'boolean',
         ];
 
@@ -111,22 +111,24 @@ class AdminManagement extends Component
                 $admin->update(['password' => Hash::make($this->password)]);
             }
 
-            // Update or create subscription
-            $subscription = $admin->subscription;
-            if ($subscription) {
-                $subscription->update([
-                    'subscription_plan_id' => $this->subscription_plan_id,
-                ]);
-            } else {
-                Subscription::create([
-                    'user_id' => $admin->id,
-                    'subscription_plan_id' => $this->subscription_plan_id,
-                    'start_date' => Carbon::now(),
-                    'end_date' => Carbon::now()->addYear(),
-                    'next_payment_date' => Carbon::now()->addYear(),
-                    'is_active' => true,
-                    'is_trial' => false,
-                ]);
+            // Update or create subscription if specified
+            if ($this->subscription_plan_id) {
+                $subscription = $admin->subscription;
+                if ($subscription) {
+                    $subscription->update([
+                        'subscription_plan_id' => $this->subscription_plan_id,
+                    ]);
+                } else {
+                    Subscription::create([
+                        'user_id' => $admin->id,
+                        'subscription_plan_id' => $this->subscription_plan_id,
+                        'start_date' => Carbon::now(),
+                        'end_date' => Carbon::now()->addYear(),
+                        'next_payment_date' => Carbon::now()->addYear(),
+                        'is_active' => true,
+                        'is_trial' => false,
+                    ]);
+                }
             }
 
             session()->flash('message', 'Kurum (Admin) başarıyla güncellendi.');
@@ -141,16 +143,18 @@ class AdminManagement extends Component
                 'created_by' => auth()->id(),
             ]);
 
-            // Create subscription
-            Subscription::create([
-                'user_id' => $admin->id,
-                'subscription_plan_id' => $this->subscription_plan_id,
-                'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addYear(),
-                'next_payment_date' => Carbon::now()->addYear(),
-                'is_active' => true,
-                'is_trial' => false,
-            ]);
+            // Create subscription if specified
+            if ($this->subscription_plan_id) {
+                Subscription::create([
+                    'user_id' => $admin->id,
+                    'subscription_plan_id' => $this->subscription_plan_id,
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addYear(),
+                    'next_payment_date' => Carbon::now()->addYear(),
+                    'is_active' => true,
+                    'is_trial' => false,
+                ]);
+            }
 
             session()->flash('message', 'Kurum (Admin) başarıyla eklendi.');
         }
