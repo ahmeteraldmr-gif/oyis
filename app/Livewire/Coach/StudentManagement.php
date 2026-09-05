@@ -45,6 +45,18 @@ class StudentManagement extends Component
         return $rules;
     }
 
+    protected function messages()
+    {
+        return [
+            'name.required' => 'İsim alanı zorunludur.',
+            'email.required' => 'E-posta adresi zorunludur.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.unique' => 'Bu e-posta adresi zaten sistemde kayıtlı! (Admin, Koç veya Öğrenci hesabı olarak kullanılıyor).',
+            'password.required' => 'Şifre alanı zorunludur.',
+            'password.min' => 'Şifre en az 6 karakter olmalıdır.',
+        ];
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
