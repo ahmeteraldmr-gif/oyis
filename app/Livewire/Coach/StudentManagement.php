@@ -88,8 +88,17 @@ class StudentManagement extends Component
         $studentRole = Role::where('name', 'student')->first();
         $coach = auth()->user();
 
-        // Abonelik limiti kontrolü (Geçici olarak devre dışı - Sınırsız öğrenci eklenebilir)
-        // if (!$this->editMode) { ... }
+        // Abonelik öğrenci limiti kontrolü
+        if (!$this->editMode) {
+            $subscription = $coach->subscription;
+            if ($subscription && $subscription->student_limit) {
+                $currentStudentCount = $coach->students()->count();
+                if ($currentStudentCount >= $subscription->student_limit) {
+                    session()->flash('error', "Maksimum öğrenci limitinize ulaştınız! (İzin verilen limit: {$subscription->student_limit} öğrenci). Kontenjanınızı artırmak için lütfen yöneticiniz (Admin) ile iletişime geçin.");
+                    return;
+                }
+            }
+        }
 
         if ($this->editMode) {
             $student = User::findOrFail($this->studentId);

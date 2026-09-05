@@ -15,6 +15,7 @@ class Subscription extends Model
         'next_payment_date',
         'is_active',
         'is_trial',
+        'student_limit',
     ];
 
     protected function casts(): array

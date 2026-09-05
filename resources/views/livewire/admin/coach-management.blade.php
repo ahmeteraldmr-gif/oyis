@@ -85,15 +85,21 @@
                                 <div class="text-xs text-gray-500">{{ $coach->phone ?: '-' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    {{ $coach->students->count() }} Öğrenci
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold {{ ($coach->subscription?->student_limit && $coach->students->count() >= $coach->subscription->student_limit) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-blue-100 text-blue-800' }}">
+                                    {{ $coach->students->count() }} / {{ $coach->subscription?->student_limit ?: 'Sınırsız' }} Öğrenci
                                 </span>
                             </td>
                             <td class="px-6 py-4">
-                                @if($coach->subscription)
-                                    <div class="text-sm text-gray-900">{{ $coach->subscription->plan->name }}</div>
-                                    <div class="text-xs text-gray-500">
-                                        {{ $coach->subscription->end_date->format('d.m.Y') }} tarihine kadar
+                                @if($coach->subscription && $coach->subscription->end_date)
+                                    @php
+                                        $remaining = \Carbon\Carbon::now()->diffInDays($coach->subscription->end_date, false);
+                                        $isExpired = $remaining < 0 || !$coach->subscription->is_active;
+                                    @endphp
+                                    <div class="text-xs font-semibold {{ $isExpired ? 'text-red-600' : 'text-gray-900' }}">
+                                        {{ $isExpired ? '🔴 Süresi Doldu' : '🟢 '.$remaining.' gün kaldı' }}
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-0.5">
+                                        Bitiş: {{ $coach->subscription->end_date->format('d.m.Y') }}
                                     </div>
                                 @else
                                     <span class="text-xs font-medium text-green-600">Sınırsız / Aktif</span>
@@ -143,11 +149,11 @@
     <!-- Modal -->
     @if($showModal)
         <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" wire:click="closeModal">
-            <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-lg bg-white" wire:click.stop>
+            <div class="relative top-10 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-lg bg-white" wire:click.stop>
                 <!-- Modal Header -->
                 <div class="flex items-center justify-between pb-4 border-b">
                     <h3 class="text-xl font-semibold text-gray-900">
-                        {{ $editMode ? 'Koç Düzenle' : 'Yeni Koç Ekle' }}
+                        {{ $editMode ? 'Koç & Abonelik Düzenle' : 'Yeni Koç Ekle' }}
                     </h3>
                     <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,7 +166,7 @@
                 <form wire:submit.prevent="save" class="mt-4 space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
                                 İsim Soyisim *
                             </label>
                             <input 
@@ -173,7 +179,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
                                 E-posta *
                             </label>
                             <input 
@@ -186,7 +192,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
                                 Şifre {{ $editMode ? '(Boş bırakılırsa değişmez)' : '*' }}
                             </label>
                             <input 
@@ -199,7 +205,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
                                 Telefon
                             </label>
                             <input 
@@ -211,34 +217,47 @@
                             @error('phone') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Abonelik Paketi (İsteğe Bağlı)
+                        <!-- ABONELİK SÜRESİ (GÜN) -->
+                        <div class="bg-indigo-50/60 border border-indigo-100 rounded-xl p-3">
+                            <label class="block text-sm font-bold text-indigo-900 mb-1">
+                                📅 Abonelik Süresi (Gün Sayısı) *
                             </label>
-                            <select wire:model="subscription_plan_id" class="input-field">
-                                <option value="">Paket Seçin</option>
-                                @foreach($subscriptionPlans as $plan)
-                                    <option value="{{ $plan->id }}">
-                                        {{ $plan->name }} - ₺{{ $plan->price }}/ay
-                                        @if($plan->student_limit)
-                                            ({{ $plan->student_limit }} öğrenci)
-                                        @else
-                                            (Sınırsız)
-                                        @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('subscription_plan_id') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
+                            <input 
+                                type="number" 
+                                wire:model="duration_days" 
+                                min="1"
+                                max="3650"
+                                class="input-field bg-white"
+                                placeholder="Örn: 30"
+                            >
+                            <p class="text-[11px] text-indigo-600 mt-1">Giriş anından itibaren tanımlanacak süre (gün)</p>
+                            @error('duration_days') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
                         </div>
 
-                        <div>
-                            <label class="flex items-center mt-8">
+                        <!-- MAKSİMUM ÖĞRENCİ LİMİTİ -->
+                        <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-3">
+                            <label class="block text-sm font-bold text-blue-900 mb-1">
+                                👥 Öğrenci Kontenjanı (Max Limiti)
+                            </label>
+                            <input 
+                                type="number" 
+                                wire:model="student_limit" 
+                                min="1"
+                                class="input-field bg-white"
+                                placeholder="Örn: 20 (Boş ise sınırsız)"
+                            >
+                            <p class="text-[11px] text-blue-600 mt-1">Koçun ekleyebileceği maks öğrenci sayısı</p>
+                            @error('student_limit') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="flex items-center">
                                 <input 
                                     type="checkbox" 
                                     wire:model="is_active" 
                                     class="h-4 w-4 text-accent-blue focus:ring-accent-blue border-gray-300 rounded"
                                 >
-                                <span class="ml-2 text-sm text-gray-700">Aktif</span>
+                                <span class="ml-2 text-sm text-gray-700 font-medium">Koç Hesabı Aktif Olsun</span>
                             </label>
                         </div>
                     </div>

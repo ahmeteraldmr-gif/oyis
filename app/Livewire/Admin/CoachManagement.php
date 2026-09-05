@@ -24,6 +24,8 @@ class CoachManagement extends Component
     public $password;
     public $phone;
     public $subscription_plan_id;
+    public $duration_days = 30; // Varsayılan 30 Gün
+    public $student_limit = 20; // Varsayılan 20 Öğrenci
     public $is_active = true;
 
     // Search & Filter
@@ -39,6 +41,8 @@ class CoachManagement extends Component
             'email' => 'required|email|unique:users,email,' . $this->coachId,
             'phone' => 'nullable|string|max:20',
             'subscription_plan_id' => 'nullable|exists:subscription_plans,id',
+            'duration_days' => 'required|integer|min:1|max:3650',
+            'student_limit' => 'nullable|integer|min:1',
             'is_active' => 'boolean',
         ];
 
@@ -60,6 +64,9 @@ class CoachManagement extends Component
             'email.unique' => 'Bu e-posta adresi zaten sistemde kayıtlı! (Admin, Koç veya Öğrenci hesabı olarak kullanılıyor).',
             'password.required' => 'Şifre alanı zorunludur.',
             'password.min' => 'Şifre en az 6 karakter olmalıdır.',
+            'duration_days.required' => 'Abonelik süresi (gün) zorunludur.',
+            'duration_days.min' => 'Abonelik süresi en az 1 gün olmalıdır.',
+            'student_limit.min' => 'Öğrenci kontenjanı en az 1 olmalıdır.',
         ];
     }
 
@@ -83,6 +90,8 @@ class CoachManagement extends Component
     public function resetForm()
     {
         $this->reset(['coachId', 'name', 'email', 'password', 'phone', 'subscription_plan_id', 'editMode']);
+        $this->duration_days = 30;
+        $this->student_limit = 20;
         $this->is_active = true;
         $this->resetValidation();
     }
@@ -92,6 +101,8 @@ class CoachManagement extends Component
         $this->validate();
 
         $coachRole = Role::where('name', 'coach')->first();
+        $startDate = Carbon::now();
+        $endDate = Carbon::now()->addDays((int) $this->duration_days);
 
         if ($this->editMode) {
             $coach = User::findOrFail($this->coachId);
@@ -107,17 +118,20 @@ class CoachManagement extends Component
                 $coach->update(['password' => Hash::make($this->password)]);
             }
 
-            // Update subscription if present
-            if ($this->subscription_plan_id) {
-                $subscription = $coach->subscription;
-                if ($subscription) {
-                    $subscription->update([
-                        'subscription_plan_id' => $this->subscription_plan_id,
-                    ]);
-                }
-            }
+            // Update or Create Subscription
+            Subscription::updateOrCreate(
+                ['user_id' => $coach->id],
+                [
+                    'subscription_plan_id' => $this->subscription_plan_id,
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'next_payment_date' => $endDate,
+                    'is_active' => $this->is_active,
+                    'student_limit' => $this->student_limit ? (int) $this->student_limit : null,
+                ]
+            );
 
-            session()->flash('message', 'Koç başarıyla güncellendi.');
+            session()->flash('message', 'Koç ve abonelik bilgileri başarıyla güncellendi.');
         } else {
             $coach = User::create([
                 'role_id' => $coachRole->id,
@@ -129,20 +143,19 @@ class CoachManagement extends Component
                 'created_by' => auth()->id(),
             ]);
 
-            // Create subscription if specified
-            if ($this->subscription_plan_id) {
-                Subscription::create([
-                    'user_id' => $coach->id,
-                    'subscription_plan_id' => $this->subscription_plan_id,
-                    'start_date' => Carbon::now(),
-                    'end_date' => Carbon::now()->addMonth(),
-                    'next_payment_date' => Carbon::now()->addMonth(),
-                    'is_active' => true,
-                    'is_trial' => true,
-                ]);
-            }
+            // Create Subscription with duration and student limit
+            Subscription::create([
+                'user_id' => $coach->id,
+                'subscription_plan_id' => $this->subscription_plan_id,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'next_payment_date' => $endDate,
+                'is_active' => $this->is_active,
+                'is_trial' => false,
+                'student_limit' => $this->student_limit ? (int) $this->student_limit : null,
+            ]);
 
-            session()->flash('message', 'Koç başarıyla eklendi.');
+            session()->flash('message', 'Koç başarıyla eklendi ve aboneliği başlatıldı.');
         }
 
         $this->closeModal();
@@ -158,6 +171,16 @@ class CoachManagement extends Component
         $this->phone = $coach->phone;
         $this->is_active = $coach->is_active;
         $this->subscription_plan_id = $coach->subscription?->subscription_plan_id;
+        
+        if ($coach->subscription && $coach->subscription->end_date) {
+            $remainingDays = Carbon::now()->diffInDays($coach->subscription->end_date, false);
+            $this->duration_days = $remainingDays > 0 ? (int) $remainingDays : 30;
+            $this->student_limit = $coach->subscription->student_limit ?? 20;
+        } else {
+            $this->duration_days = 30;
+            $this->student_limit = 20;
+        }
+
         $this->editMode = true;
         $this->showModal = true;
     }
