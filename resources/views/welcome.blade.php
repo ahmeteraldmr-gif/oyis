@@ -234,316 +234,289 @@
             </div>
         </section>
 
-        <!-- ===== NASIL ÇALIŞIR? - Animasyonlu Demo Bölümü ===== -->
-        <section id="nasil-calisir" class="space-y-12">
+        <!-- ===== NASIL ÇALIŞIR? - Premium Animasyonlu Demo Bölümü ===== -->
+        <section id="nasil-calisir">
+
             <!-- Section Header -->
-            <div class="text-center space-y-4 max-w-3xl mx-auto">
-                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                    🎬 Canlı Demo
+            <div class="text-center space-y-3 max-w-3xl mx-auto mb-14">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-violet-50 text-violet-700 border border-violet-100">
+                    🎬 İnteraktif Demo
                 </span>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Nasıl Çalışır?</h2>
-                <p class="text-slate-600 text-sm md:text-base">RehberKoçum'un koçluk sürecini nasıl kolaylaştırdığını 4 adımda keşfedin.</p>
+                <p class="text-slate-500 text-sm md:text-base leading-relaxed">Koçluk sürecini dijitalleştiren 4 adımı keşfedin.</p>
             </div>
 
-            <!-- Video Player Shell -->
-            <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-slate-900" style="max-width: 900px; margin: 0 auto;">
+            <!-- Main Demo Container -->
+            <div class="max-w-5xl mx-auto flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-2xl" style="border: 1px solid rgba(99,102,241,0.25);">
 
-                <!-- Fake Browser Top Bar -->
-                <div class="flex items-center gap-2 px-5 py-3 bg-slate-800 border-b border-slate-700">
-                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                    <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                    <div class="flex-1 mx-4 bg-slate-700 rounded-md px-3 py-1 text-xs text-slate-400 font-mono">rehberkoçum.com/dashboard</div>
-                </div>
+                <!-- LEFT: Sidebar -->
+                <div class="lg:w-60 flex-shrink-0 flex flex-row lg:flex-col" style="background:linear-gradient(160deg,#1e1b4b 0%,#0f172a 100%);">
 
-                <!-- Demo Screen Area -->
-                <div class="relative" style="min-height: 420px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);">
-
-                    <!-- Step Panels (shown/hidden via JS) -->
-
-                    <!-- Step 1: Koç Öğrenci Ekler -->
-                    <div id="demo-step-1" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-6 transition-all duration-700">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full">Adım 1</span>
-                            <span class="text-white font-bold text-lg">Koç → Öğrenci Oluşturur</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Mock form card -->
-                            <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-5 space-y-3">
-                                <div class="text-white text-sm font-semibold mb-3">✏️ Yeni Öğrenci Ekle</div>
-                                <div class="space-y-2">
-                                    <div class="h-8 bg-white/20 rounded-lg flex items-center px-3">
-                                        <span class="text-white/60 text-xs">Ali Yılmaz</span>
-                                    </div>
-                                    <div class="h-8 bg-white/20 rounded-lg flex items-center px-3">
-                                        <span class="text-white/60 text-xs">ali@gmail.com</span>
-                                    </div>
-                                    <div class="h-8 bg-white/20 rounded-lg flex items-center px-3">
-                                        <span class="text-white/60 text-xs">••••••••</span>
-                                    </div>
-                                </div>
-                                <div class="mt-3 h-9 bg-indigo-500 rounded-lg flex items-center justify-center text-white text-xs font-bold animate-pulse">
-                                    ✓ Öğrenci Oluşturuldu!
-                                </div>
-                            </div>
-                            <!-- Mock student card -->
-                            <div class="space-y-3">
-                                <div class="text-white/70 text-xs font-semibold uppercase tracking-wider mb-2">Öğrenci Listesi</div>
-                                <div class="bg-white/10 border border-white/20 rounded-xl p-3 flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-sm">A</div>
-                                    <div>
-                                        <div class="text-white text-sm font-semibold">Ali Yılmaz</div>
-                                        <div class="text-white/50 text-xs">ali@gmail.com</div>
-                                    </div>
-                                    <span class="ml-auto px-2 py-0.5 bg-emerald-500/30 text-emerald-300 text-xs rounded-full">Aktif</span>
-                                </div>
-                                <div class="bg-white/05 border border-white/10 rounded-xl p-3 flex items-center gap-3 opacity-50">
-                                    <div class="w-9 h-9 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-sm">Z</div>
-                                    <div>
-                                        <div class="text-white text-sm font-semibold">Zeynep Kara</div>
-                                        <div class="text-white/50 text-xs">zeynep@gmail.com</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Logo (desktop) -->
+                    <div class="hidden lg:flex items-center gap-2 px-5 py-5 border-b border-white/10">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-black">R</div>
+                        <span class="text-white font-black text-sm">rehber<span class="text-indigo-400">koçum</span></span>
                     </div>
 
-                    <!-- Step 2: Ders Ataması -->
-                    <div id="demo-step-2" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-4 hidden transition-all duration-700">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full">Adım 2</span>
-                            <span class="text-white font-bold text-lg">Koç → Ders & Konu Atar</span>
+                    <!-- Step buttons -->
+                    <button type="button" id="dsb-0" onclick="demoGoTo(0)" class="demo-sb flex items-center gap-3 px-5 py-4 text-left w-full border-b lg:border-b border-white/10 border-r lg:border-r-0 flex-1 lg:flex-none relative" style="background:rgba(99,102,241,0.18);">
+                        <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white text-sm font-black flex-shrink-0 shadow-lg">1</div>
+                        <div class="hidden lg:block">
+                            <div class="text-white text-xs font-bold">Öğrenci Ekle</div>
+                            <div class="text-white/40 text-[10px]">Sisteme kayıt</div>
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <!-- Field cards -->
-                            <div class="bg-emerald-500/20 border border-emerald-400/40 rounded-xl p-4 space-y-2">
-                                <div class="text-emerald-300 text-xs font-bold uppercase">TYT</div>
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-sm bg-emerald-400"></div>
-                                        <span class="text-white text-xs">Matematik</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-sm bg-emerald-400"></div>
-                                        <span class="text-white text-xs">Türkçe</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-sm bg-white/20"></div>
-                                        <span class="text-white/50 text-xs">Fizik</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-indigo-500/20 border border-indigo-400/40 rounded-xl p-4 space-y-2">
-                                <div class="text-indigo-300 text-xs font-bold uppercase">AYT</div>
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-sm bg-indigo-400"></div>
-                                        <span class="text-white text-xs">Kimya</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-3 h-3 rounded-sm bg-white/20"></div>
-                                        <span class="text-white/50 text-xs">Biyoloji</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-white/10 border border-white/20 rounded-xl p-4 col-span-2 md:col-span-1">
-                                <div class="text-white/70 text-xs font-bold uppercase mb-2">📬 Atanan Konular</div>
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-white text-xs">Matematik - Limit</span>
-                                        <span class="text-emerald-400 text-xs">✓</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-white text-xs">Türkçe - Paragraf</span>
-                                        <span class="text-emerald-400 text-xs">✓</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-white text-xs">Kimya - Mol</span>
-                                        <span class="text-yellow-400 text-xs animate-pulse">...</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="absolute right-0 top-0 bottom-0 w-0.5 bg-indigo-400 hidden lg:block"></div>
+                    </button>
 
-                    <!-- Step 3: Haftalık Program -->
-                    <div id="demo-step-3" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-4 hidden transition-all duration-700">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full">Adım 3</span>
-                            <span class="text-white font-bold text-lg">Koç → Haftalık Program Hazırlar</span>
+                    <button type="button" id="dsb-1" onclick="demoGoTo(1)" class="demo-sb flex items-center gap-3 px-5 py-4 text-left w-full border-b lg:border-b border-white/10 border-r lg:border-r-0 flex-1 lg:flex-none relative opacity-50">
+                        <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-white/50 text-sm font-black flex-shrink-0">2</div>
+                        <div class="hidden lg:block">
+                            <div class="text-white/60 text-xs font-bold">Ders Ata</div>
+                            <div class="text-white/30 text-[10px]">TYT & AYT konuları</div>
                         </div>
-                        <!-- Mini schedule grid -->
-                        <div class="overflow-auto">
-                            <table class="w-full text-xs text-white border-collapse">
-                                <thead>
-                                    <tr>
-                                        <th class="py-2 px-2 bg-white/10 border border-white/10 text-white/60 font-semibold text-left w-20">Saat</th>
-                                        @foreach(['Pzt', 'Sal', 'Çar', 'Per', 'Cum'] as $day)
-                                        <th class="py-2 px-2 bg-white/10 border border-white/10 text-white/70 font-semibold text-center">{{ $day }}</th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="py-2 px-2 border border-white/10 text-white/50">09:00</td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-indigo-500/70 rounded px-2 py-1 text-center">Matematik</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-emerald-500/70 rounded px-2 py-1 text-center">Türkçe</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10"></td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-purple-500/70 rounded px-2 py-1 text-center">Kimya</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-indigo-500/70 rounded px-2 py-1 text-center">Matematik</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2 px-2 border border-white/10 text-white/50">11:00</td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-yellow-500/70 rounded px-2 py-1 text-center">Fizik</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10"></td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-emerald-500/70 rounded px-2 py-1 text-center">Türkçe</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-indigo-500/70 rounded px-2 py-1 text-center">Matematik</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2 px-2 border border-white/10 text-white/50">14:00</td>
-                                        <td class="py-1.5 px-1 border border-white/10"></td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-purple-500/70 rounded px-2 py-1 text-center">Kimya</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-yellow-500/70 rounded px-2 py-1 text-center">Fizik</div>
-                                        </td>
-                                        <td class="py-1.5 px-1 border border-white/10"></td>
-                                        <td class="py-1.5 px-1 border border-white/10">
-                                            <div class="bg-emerald-500/70 rounded px-2 py-1 text-center animate-pulse">Türkçe ✏️</div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    </button>
 
-                    <!-- Step 4: Öğrenci Takibi & Analiz -->
-                    <div id="demo-step-4" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-4 hidden transition-all duration-700">
-                        <div class="flex items-center gap-3 mb-2">
-                            <span class="px-3 py-1 bg-rose-600 text-white text-xs font-bold rounded-full">Adım 4</span>
-                            <span class="text-white font-bold text-lg">Koç → Öğrenci Gelişimini Takip Eder</span>
+                    <button type="button" id="dsb-2" onclick="demoGoTo(2)" class="demo-sb flex items-center gap-3 px-5 py-4 text-left w-full border-b lg:border-b border-white/10 border-r lg:border-r-0 flex-1 lg:flex-none relative opacity-50">
+                        <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-white/50 text-sm font-black flex-shrink-0">3</div>
+                        <div class="hidden lg:block">
+                            <div class="text-white/60 text-xs font-bold">Program Kur</div>
+                            <div class="text-white/30 text-[10px]">Haftalık çizelge</div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Stat cards -->
-                            <div class="bg-white/10 border border-white/20 rounded-2xl p-4 space-y-2">
-                                <div class="text-white/60 text-xs uppercase font-bold">TYT Net Ortalaması</div>
-                                <div class="text-4xl font-black text-white">74.5</div>
-                                <div class="text-emerald-400 text-xs font-semibold">↑ +3.2 bu hafta</div>
-                                <!-- Bar chart simulation -->
-                                <div class="flex items-end gap-1 h-12 mt-2">
-                                    <div class="flex-1 bg-indigo-500/50 rounded-sm" style="height: 40%"></div>
-                                    <div class="flex-1 bg-indigo-500/60 rounded-sm" style="height: 55%"></div>
-                                    <div class="flex-1 bg-indigo-500/70 rounded-sm" style="height: 48%"></div>
-                                    <div class="flex-1 bg-indigo-500/80 rounded-sm" style="height: 65%"></div>
-                                    <div class="flex-1 bg-indigo-500/90 rounded-sm" style="height: 72%"></div>
-                                    <div class="flex-1 bg-indigo-400 rounded-sm animate-pulse" style="height: 88%"></div>
-                                </div>
-                            </div>
-                            <div class="bg-white/10 border border-white/20 rounded-2xl p-4 space-y-2">
-                                <div class="text-white/60 text-xs uppercase font-bold">Tamamlanan Görevler</div>
-                                <div class="text-4xl font-black text-white">18<span class="text-xl text-white/40">/24</span></div>
-                                <div class="text-yellow-400 text-xs font-semibold">%75 Tamamlandı</div>
-                                <!-- Progress bar -->
-                                <div class="w-full h-2 bg-white/20 rounded-full mt-2">
-                                    <div class="h-2 bg-yellow-400 rounded-full" style="width: 75%; transition: width 1s ease;"></div>
-                                </div>
-                            </div>
-                            <div class="bg-white/10 border border-white/20 rounded-2xl p-4 space-y-3">
-                                <div class="text-white/60 text-xs uppercase font-bold">Son Aktiviteler</div>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></div>
-                                        <span class="text-white text-xs">Limit konusu tamamlandı</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></div>
-                                        <span class="text-white text-xs">35 soru çözüldü</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-2 h-2 rounded-full bg-yellow-400 flex-shrink-0 animate-pulse"></div>
-                                        <span class="text-white text-xs">Deneme sonucu girildi</span>
-                                    </div>
-                                </div>
-                            </div>
+                    </button>
+
+                    <button type="button" id="dsb-3" onclick="demoGoTo(3)" class="demo-sb flex items-center gap-3 px-5 py-4 text-left w-full border-r lg:border-r-0 flex-1 lg:flex-none relative opacity-50">
+                        <div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-white/50 text-sm font-black flex-shrink-0">4</div>
+                        <div class="hidden lg:block">
+                            <div class="text-white/60 text-xs font-bold">Gelişimi İzle</div>
+                            <div class="text-white/30 text-[10px]">Analiz & raporlar</div>
                         </div>
-                    </div>
+                    </button>
 
-                    <!-- Progress bar at bottom -->
-                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                        <div id="demo-progress-bar" class="h-1 bg-indigo-400 transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <!-- Player Controls -->
-                <div class="bg-slate-800 px-6 py-4 flex flex-col gap-3">
-                    <!-- Step indicators & step title -->
-                    <div class="flex items-center gap-3 flex-wrap">
-                        <button onclick="goToStep(1)" id="step-btn-1" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-indigo-600 text-white">
-                            <span>1</span> Öğrenci Ekle
+                    <!-- Play button (desktop) -->
+                    <div class="hidden lg:flex flex-col mt-auto border-t border-white/10 p-4 gap-3">
+                        <button type="button" id="demo-play-btn" onclick="demoTogglePlay()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-lg">
+                            <svg id="demo-pi" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg id="demo-pai" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            <span id="demo-play-lbl">Otomatik Oynat</span>
                         </button>
-                        <button onclick="goToStep(2)" id="step-btn-2" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20">
-                            <span>2</span> Ders Ata
-                        </button>
-                        <button onclick="goToStep(3)" id="step-btn-3" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20">
-                            <span>3</span> Program Oluştur
-                        </button>
-                        <button onclick="goToStep(4)" id="step-btn-4" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20">
-                            <span>4</span> Gelişimi İzle
-                        </button>
+                        <div class="flex justify-center gap-1.5">
+                            <div id="dd0" class="h-1 rounded-full bg-indigo-400 transition-all duration-400" style="width:24px;"></div>
+                            <div id="dd1" class="h-1 rounded-full bg-white/20 transition-all duration-400" style="width:8px;"></div>
+                            <div id="dd2" class="h-1 rounded-full bg-white/20 transition-all duration-400" style="width:8px;"></div>
+                            <div id="dd3" class="h-1 rounded-full bg-white/20 transition-all duration-400" style="width:8px;"></div>
+                        </div>
+                    </div>
 
-                        <!-- Play/Pause button -->
-                        <button id="play-pause-btn" onclick="togglePlayPause()" class="ml-auto flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white transition-all">
-                            <svg id="play-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                            <svg id="pause-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                            </svg>
-                            <span id="play-btn-text">Otomatik Oynat</span>
+                    <!-- Play button (mobile) -->
+                    <div class="lg:hidden flex items-center px-3">
+                        <button type="button" onclick="demoTogglePlay()" class="flex items-center gap-1 py-2 px-3 rounded-xl text-xs font-bold bg-indigo-600 text-white">
+                            <svg id="demo-pi-m" class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg id="demo-pai-m" class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                         </button>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step descriptions below player -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-6">
-                <div class="text-center space-y-2">
-                    <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg mx-auto">👤</div>
-                    <h4 class="text-sm font-bold text-slate-900">Öğrenci Ekle</h4>
-                    <p class="text-xs text-slate-500">Saniyeler içinde öğrencini sisteme ekle, giriş bilgilerini oluştur.</p>
-                </div>
-                <div class="text-center space-y-2">
-                    <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg mx-auto">📚</div>
-                    <h4 class="text-sm font-bold text-slate-900">Ders Ata</h4>
-                    <p class="text-xs text-slate-500">TYT & AYT derslerini ve konularını tek tıkla öğrenciye ata.</p>
-                </div>
-                <div class="text-center space-y-2">
-                    <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-lg mx-auto">🗓️</div>
-                    <h4 class="text-sm font-bold text-slate-900">Program Kur</h4>
-                    <p class="text-xs text-slate-500">Saatli haftalık çalışma programı oluştur, öğrenci panelinde yayınla.</p>
-                </div>
-                <div class="text-center space-y-2">
-                    <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-lg mx-auto">📊</div>
-                    <h4 class="text-sm font-bold text-slate-900">Gelişimi Takip Et</h4>
-                    <p class="text-xs text-slate-500">Net analizleri, görev tamamlama ve deneme gelişimini anlık izle.</p>
-                </div>
-            </div>
+                <!-- RIGHT: Screen -->
+                <div class="flex-1 flex flex-col" style="background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);">
+
+                    <!-- Fake browser bar -->
+                    <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10" style="background:rgba(255,255,255,0.03);">
+                        <div class="flex gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500/70"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400/70"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></div>
+                        </div>
+                        <div class="flex-1 mx-3 bg-white/10 rounded-md px-3 py-1 text-[11px] text-white/40 font-mono" id="demo-url">rehberkoçum.com/koc/ogrenciler</div>
+                    </div>
+
+                    <!-- Panels -->
+                    <div class="relative flex-1" style="min-height:380px;">
+
+                        <!-- Panel 0 -->
+                        <div id="dpanel-0" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:1;transition:opacity 0.5s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-1.5 h-6 rounded-full bg-indigo-500"></div>
+                                <h3 class="text-white font-extrabold">Yeni Öğrenci Oluştur</h3>
+                                <span class="ml-auto text-white/30 text-[10px] font-mono">koç › öğrenciler › yeni</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 flex-1">
+                                <div class="md:col-span-3 bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Ad</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">Ali</span><span class="w-0.5 h-4 bg-indigo-400 ml-0.5 animate-pulse"></span></div></div>
+                                        <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Soyad</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">Yılmaz</span></div></div>
+                                    </div>
+                                    <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">E-posta</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">ali.yilmaz@gmail.com</span></div></div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Şifre</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">••••••••</span></div></div>
+                                        <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Sınıf</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">12. Sınıf</span></div></div>
+                                    </div>
+                                    <div class="h-10 bg-indigo-600 rounded-xl flex items-center justify-center gap-2 text-white text-xs font-extrabold shadow-lg shadow-indigo-900/50 mt-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                        Öğrenci Oluştur
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2 space-y-2">
+                                    <div class="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-3">Kayıtlı Öğrenciler</div>
+                                    <div class="bg-indigo-500/20 border border-indigo-400/40 rounded-xl p-3 flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs">AY</div>
+                                        <div><div class="text-white text-xs font-semibold">Ali Yılmaz</div><div class="text-indigo-300 text-[10px]">Yeni eklendi ✓</div></div>
+                                        <div class="ml-auto w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3 opacity-60">
+                                        <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-black text-xs">ZK</div>
+                                        <div><div class="text-white text-xs font-semibold">Zeynep Kara</div><div class="text-white/30 text-[10px]">aktif öğrenci</div></div>
+                                    </div>
+                                    <div class="bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3 opacity-40">
+                                        <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white font-black text-xs">MB</div>
+                                        <div><div class="text-white text-xs font-semibold">Mert Bulut</div><div class="text-white/30 text-[10px]">aktif öğrenci</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel 1 -->
+                        <div id="dpanel-1" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-1.5 h-6 rounded-full bg-emerald-500"></div>
+                                <h3 class="text-white font-extrabold">Ders & Konu Ataması</h3>
+                                <span class="ml-auto text-white/30 text-[10px] font-mono">koç › Ali Yılmaz › dersler</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3 flex-1">
+                                <div class="bg-emerald-900/40 border border-emerald-500/30 rounded-2xl p-4">
+                                    <div class="flex items-center justify-between mb-3"><span class="text-emerald-400 text-[10px] font-black uppercase tracking-wider">TYT</span><span class="text-emerald-400 text-[10px] bg-emerald-400/20 px-1.5 py-0.5 rounded-full">4/5</span></div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-emerald-500 flex items-center justify-center"><svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span class="text-white text-[11px]">Matematik</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-emerald-500 flex items-center justify-center"><svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span class="text-white text-[11px]">Türkçe</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-emerald-500 flex items-center justify-center"><svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span class="text-white text-[11px]">Fizik</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-white/20"></div><span class="text-white/40 text-[11px]">Kimya</span></div>
+                                    </div>
+                                </div>
+                                <div class="bg-indigo-900/40 border border-indigo-500/30 rounded-2xl p-4">
+                                    <div class="flex items-center justify-between mb-3"><span class="text-indigo-400 text-[10px] font-black uppercase tracking-wider">AYT</span><span class="text-indigo-400 text-[10px] bg-indigo-400/20 px-1.5 py-0.5 rounded-full">3/6</span></div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-indigo-500 flex items-center justify-center"><svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span class="text-white text-[11px]">Mat (AYT)</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-indigo-500 flex items-center justify-center"><svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div><span class="text-white text-[11px]">Fizik (AYT)</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-white/20 animate-pulse"></div><span class="text-white/50 text-[11px]">Kimya...</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-md bg-white/20"></div><span class="text-white/30 text-[11px]">Biyoloji</span></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                                    <div class="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-3">Atama Günlüğü</div>
+                                    <div class="space-y-2.5">
+                                        <div class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1 flex-shrink-0"></div><div><div class="text-white text-[11px] font-semibold">Matematik - Limit</div><div class="text-white/30 text-[9px]">az önce</div></div></div>
+                                        <div class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1 flex-shrink-0"></div><div><div class="text-white text-[11px] font-semibold">Türkçe - Paragraf</div><div class="text-white/30 text-[9px]">2 dk önce</div></div></div>
+                                        <div class="flex items-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-yellow-400 mt-1 flex-shrink-0 animate-pulse"></div><div><div class="text-white/60 text-[11px] font-semibold">Fizik - Kuvvet...</div><div class="text-yellow-400/60 text-[9px]">atanıyor...</div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel 2 -->
+                        <div id="dpanel-2" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-1.5 h-6 rounded-full bg-purple-500"></div>
+                                <h3 class="text-white font-extrabold">Haftalık Çalışma Programı</h3>
+                                <span class="ml-auto flex items-center gap-1.5 text-purple-300 text-[10px] font-bold bg-purple-500/20 px-2.5 py-1 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>Ali Yılmaz için</span>
+                            </div>
+                            <div class="flex-1 overflow-auto">
+                                <table class="w-full text-[11px] text-white border-collapse">
+                                    <thead><tr>
+                                        <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/40 font-semibold text-left w-16">Saat</th>
+                                        <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/60 font-semibold text-center">Pzt</th>
+                                        <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/60 font-semibold text-center">Sal</th>
+                                        <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/60 font-semibold text-center">Çar</th>
+                                        <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/60 font-semibold text-center">Per</th>
+                                        <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/60 font-semibold text-center">Cum</th>
+                                    </tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-2 border border-white/10 text-white/30">09:00</td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-indigo-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Matematik</div></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-emerald-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Türkçe</div></td>
+                                            <td class="py-1 px-1 border border-white/10"></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-purple-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Kimya</div></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-indigo-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Matematik</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2 border border-white/10 text-white/30">11:00</td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-yellow-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Fizik</div></td>
+                                            <td class="py-1 px-1 border border-white/10"></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-emerald-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Türkçe</div></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-indigo-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Matematik</div></td>
+                                            <td class="py-1 px-1 border border-white/10"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-2 border border-white/10 text-white/30">14:00</td>
+                                            <td class="py-1 px-1 border border-white/10"></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-purple-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Kimya</div></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-yellow-600/70 rounded-lg px-2 py-1.5 text-center font-semibold">Fizik</div></td>
+                                            <td class="py-1 px-1 border border-white/10"></td>
+                                            <td class="py-1 px-1 border border-white/10"><div class="bg-emerald-500/90 border border-emerald-400/60 rounded-lg px-2 py-1.5 text-center font-bold animate-pulse">Türkçe ✏️</div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="flex items-center justify-between mt-1">
+                                <div class="text-white/30 text-[10px]">15 görev • 5 gün</div>
+                                <div class="h-7 bg-purple-600 rounded-lg flex items-center px-3 text-white text-[11px] font-bold gap-1.5 shadow-lg shadow-purple-900/40">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                                    Öğrenciye Gönder
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel 3 -->
+                        <div id="dpanel-3" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-1.5 h-6 rounded-full bg-rose-500"></div>
+                                <h3 class="text-white font-extrabold">Gelişim Takip Paneli</h3>
+                                <span class="ml-auto text-white/30 text-[10px] font-mono">Ali Yılmaz • Bu Hafta</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="bg-indigo-900/50 border border-indigo-500/30 rounded-2xl p-4">
+                                    <div class="text-indigo-300 text-[10px] uppercase font-black tracking-wider">TYT Net Ort.</div>
+                                    <div class="text-3xl font-black text-white mt-1">74.5</div>
+                                    <div class="flex items-center gap-1 mt-1"><svg class="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"/></svg><span class="text-emerald-400 text-[10px] font-semibold">+3.2 bu hafta</span></div>
+                                    <div class="flex items-end gap-0.5 h-10 mt-3">
+                                        <div class="flex-1 bg-indigo-500/40 rounded-sm" style="height:35%"></div>
+                                        <div class="flex-1 bg-indigo-500/55 rounded-sm" style="height:50%"></div>
+                                        <div class="flex-1 bg-indigo-500/65 rounded-sm" style="height:43%"></div>
+                                        <div class="flex-1 bg-indigo-500/75 rounded-sm" style="height:60%"></div>
+                                        <div class="flex-1 bg-indigo-500/90 rounded-sm" style="height:70%"></div>
+                                        <div class="flex-1 bg-indigo-400 rounded-sm animate-pulse" style="height:90%"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-2xl p-4">
+                                    <div class="text-yellow-300 text-[10px] uppercase font-black tracking-wider">Görev Tamamlama</div>
+                                    <div class="text-3xl font-black text-white mt-1">18<span class="text-base text-white/30">/24</span></div>
+                                    <div class="text-yellow-400 text-[10px] font-semibold mt-1">%75 Tamamlandı</div>
+                                    <div class="w-full h-2 bg-white/10 rounded-full mt-3"><div class="h-2 bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full" style="width:75%"></div></div>
+                                </div>
+                                <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                                    <div class="text-white/40 text-[10px] uppercase font-black tracking-wider mb-3">Son Aktiviteler</div>
+                                    <div class="space-y-2.5">
+                                        <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0"></div><span class="text-white text-[11px]">Limit konusu ✓</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0"></div><span class="text-white text-[11px]">35 soru çözüldü</span></div>
+                                        <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0 animate-pulse"></div><span class="text-white/70 text-[11px]">Deneme girildi</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-4 gap-2 mt-auto">
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center"><div class="text-white font-black text-sm">12</div><div class="text-white/30 text-[9px] mt-0.5">Konu</div></div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center"><div class="text-white font-black text-sm">340</div><div class="text-white/30 text-[9px] mt-0.5">Soru</div></div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center"><div class="text-white font-black text-sm">5</div><div class="text-white/30 text-[9px] mt-0.5">Deneme</div></div>
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center"><div class="text-emerald-400 font-black text-sm">↑</div><div class="text-white/30 text-[9px] mt-0.5">Trend</div></div>
+                            </div>
+                        </div>
+
+                    </div><!-- /panels -->
+
+                    <!-- Progress bar -->
+                    <div class="h-0.5 bg-white/10"><div id="demo-prog" class="h-0.5 bg-indigo-400" style="width:0%;transition:none;"></div></div>
+
+                </div><!-- /screen -->
+            </div><!-- /container -->
+
         </section>
 
         {{-- Subscription Packages (Geçici olarak kaldırıldı) --}}
@@ -567,7 +540,7 @@
                     <li><a href="#nedir" class="hover:text-indigo-600 transition">Nedir?</a></li>
                     <li><a href="#neden-var" class="hover:text-indigo-600 transition">Neden RehberKoçum?</a></li>
                     <li><a href="#ozellikler" class="hover:text-indigo-600 transition">Özellikler</a></li>
-                    <li><a href="#paketler" class="hover:text-indigo-600 transition">Abonelik Paketleri</a></li>
+                    <li><a href="#nasil-calisir" class="hover:text-indigo-600 transition">Nasıl Çalışır?</a></li>
                 </ul>
             </div>
 
@@ -579,95 +552,158 @@
     </footer>
 
 <script>
-    const TOTAL_STEPS = 4;
-    const STEP_DURATION = 4000; // ms per step
-    let currentStep = 1;
-    let isPlaying = false;
-    let autoTimer = null;
-    let progressTimer = null;
-    let progressStart = null;
+(function() {
+    var TOTAL = 4;
+    var DURATION = 4500;
+    var current = 0;
+    var playing = false;
+    var rafId = null;
+    var startTime = null;
 
-    function goToStep(step) {
-        // Hide all panels
-        for (let i = 1; i <= TOTAL_STEPS; i++) {
-            const panel = document.getElementById('demo-step-' + i);
-            const btn = document.getElementById('step-btn-' + i);
-            if (panel) panel.classList.add('hidden');
-            if (btn) {
-                btn.className = 'step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20';
+    var urls = [
+        'rehberkoçum.com/koc/ogrenciler/yeni',
+        'rehberkoçum.com/koc/ali-yilmaz/dersler',
+        'rehberkoçum.com/koc/ali-yilmaz/program',
+        'rehberkoçum.com/koc/ali-yilmaz/gelisim'
+    ];
+
+    var sidebarColors = [
+        'rgba(99,102,241,0.18)',
+        'rgba(16,185,129,0.15)',
+        'rgba(139,92,246,0.18)',
+        'rgba(244,63,94,0.18)'
+    ];
+
+    var numColors = ['bg-indigo-600','bg-emerald-600','bg-purple-600','bg-rose-600'];
+    var dotColors = ['bg-indigo-400','bg-emerald-400','bg-purple-400','bg-rose-400'];
+
+    function showPanel(idx) {
+        for (var i = 0; i < TOTAL; i++) {
+            var p = document.getElementById('dpanel-' + i);
+            var b = document.getElementById('dsb-' + i);
+            if (!p || !b) continue;
+
+            if (i === idx) {
+                p.style.opacity = '1';
+                p.style.pointerEvents = 'auto';
+                b.style.background = sidebarColors[idx];
+                b.style.opacity = '1';
+                // Update number button style
+                var numEl = b.querySelector('div');
+                if (numEl) {
+                    numEl.className = 'w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-black flex-shrink-0 shadow-lg ' + numColors[idx];
+                }
+                // Show right border indicator on desktop
+                var bar = b.querySelector('.absolute');
+                if (bar) bar.style.opacity = '1';
+            } else {
+                p.style.opacity = '0';
+                p.style.pointerEvents = 'none';
+                b.style.background = 'transparent';
+                b.style.opacity = '0.45';
+                var numEl2 = b.querySelector('div');
+                if (numEl2) {
+                    numEl2.className = 'w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-white/50 text-sm font-black flex-shrink-0';
+                }
+                var bar2 = b.querySelector('.absolute');
+                if (bar2) bar2.style.opacity = '0';
             }
         }
 
-        // Show active panel
-        const activePanel = document.getElementById('demo-step-' + step);
-        const activeBtn = document.getElementById('step-btn-' + step);
-        if (activePanel) activePanel.classList.remove('hidden');
+        // URL bar
+        var urlEl = document.getElementById('demo-url');
+        if (urlEl) urlEl.textContent = urls[idx];
 
-        // Color active button per step
-        const colors = {
-            1: 'bg-indigo-600 text-white',
-            2: 'bg-emerald-600 text-white',
-            3: 'bg-purple-600 text-white',
-            4: 'bg-rose-600 text-white'
-        };
-        if (activeBtn) {
-            activeBtn.className = 'step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ' + colors[step];
-        }
-
-        currentStep = step;
-        resetProgressBar();
-
-        // If playing, restart progress animation
-        if (isPlaying) startProgressBar();
-    }
-
-    function resetProgressBar() {
-        clearInterval(progressTimer);
-        const bar = document.getElementById('demo-progress-bar');
-        if (bar) bar.style.width = '0%';
-        progressStart = null;
-    }
-
-    function startProgressBar() {
-        resetProgressBar();
-        progressStart = Date.now();
-        progressTimer = setInterval(function() {
-            const elapsed = Date.now() - progressStart;
-            const pct = Math.min((elapsed / STEP_DURATION) * 100, 100);
-            const bar = document.getElementById('demo-progress-bar');
-            if (bar) bar.style.width = pct + '%';
-            if (pct >= 100) {
-                clearInterval(progressTimer);
-                const next = currentStep < TOTAL_STEPS ? currentStep + 1 : 1;
-                setTimeout(function() { goToStep(next); }, 300);
+        // Dots
+        for (var d = 0; d < TOTAL; d++) {
+            var dot = document.getElementById('dd' + d);
+            if (!dot) continue;
+            if (d === idx) {
+                dot.style.width = '24px';
+                dot.className = 'h-1 rounded-full transition-all duration-400 ' + dotColors[idx];
+            } else {
+                dot.style.width = '8px';
+                dot.className = 'h-1 rounded-full bg-white/20 transition-all duration-400';
             }
-        }, 50);
-    }
-
-    function togglePlayPause() {
-        isPlaying = !isPlaying;
-
-        const playIcon = document.getElementById('play-icon');
-        const pauseIcon = document.getElementById('pause-icon');
-        const btnText = document.getElementById('play-btn-text');
-
-        if (isPlaying) {
-            playIcon.classList.add('hidden');
-            pauseIcon.classList.remove('hidden');
-            btnText.textContent = 'Duraklat';
-            startProgressBar();
-        } else {
-            playIcon.classList.remove('hidden');
-            pauseIcon.classList.add('hidden');
-            btnText.textContent = 'Otomatik Oynat';
-            resetProgressBar();
         }
+
+        current = idx;
+        resetProgress();
     }
 
-    // Init: show step 1
-    document.addEventListener('DOMContentLoaded', function() {
-        goToStep(1);
-    });
+    function resetProgress() {
+        var bar = document.getElementById('demo-prog');
+        if (!bar) return;
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+    }
+
+    function tick(ts) {
+        if (!playing) return;
+        if (!startTime) startTime = ts;
+        var elapsed = ts - startTime;
+        var pct = Math.min((elapsed / DURATION) * 100, 100);
+        var bar = document.getElementById('demo-prog');
+        if (bar) {
+            bar.style.transition = 'none';
+            bar.style.width = pct + '%';
+        }
+        if (pct >= 100) {
+            var next = (current + 1) % TOTAL;
+            showPanel(next);
+            startTime = null;
+        }
+        rafId = requestAnimationFrame(tick);
+    }
+
+    function startPlay() {
+        playing = true;
+        startTime = null;
+        rafId = requestAnimationFrame(tick);
+        // Update icons
+        var pi = document.getElementById('demo-pi');
+        var pai = document.getElementById('demo-pai');
+        var pim = document.getElementById('demo-pi-m');
+        var paim = document.getElementById('demo-pai-m');
+        var lbl = document.getElementById('demo-play-lbl');
+        if (pi) pi.style.display = 'none';
+        if (pai) pai.style.display = '';
+        if (pim) pim.style.display = 'none';
+        if (paim) paim.style.display = '';
+        if (lbl) lbl.textContent = 'Duraklat';
+    }
+
+    function stopPlay() {
+        playing = false;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = null;
+        startTime = null;
+        resetProgress();
+        var pi = document.getElementById('demo-pi');
+        var pai = document.getElementById('demo-pai');
+        var pim = document.getElementById('demo-pi-m');
+        var paim = document.getElementById('demo-pai-m');
+        var lbl = document.getElementById('demo-play-lbl');
+        if (pi) pi.style.display = '';
+        if (pai) pai.style.display = 'none';
+        if (pim) pim.style.display = '';
+        if (paim) paim.style.display = 'none';
+        if (lbl) lbl.textContent = 'Otomatik Oynat';
+    }
+
+    window.demoGoTo = function(idx) {
+        stopPlay();
+        showPanel(idx);
+    };
+
+    window.demoTogglePlay = function() {
+        if (playing) { stopPlay(); } else { startPlay(); }
+    };
+
+    // Init
+    showPanel(0);
+})();
 </script>
+
 </body>
 </html>
