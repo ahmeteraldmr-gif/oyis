@@ -184,35 +184,7 @@
             color: #f8fafc;
         }
 
-        /* Demo Fill Selector */
-        .demo-badge-container {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
 
-        .demo-badge {
-            background-color: #1e293b;
-            border: 1.5px solid #475569;
-            color: #f1f5f9;
-            padding: 0.5rem 0.85rem;
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .demo-badge:hover {
-            background-color: #312e81;
-            border-color: #818cf8;
-            color: #f8fafc;
-            transform: scale(1.03);
-        }
 
         /* Gradient Button */
         .btn-gradient {
@@ -419,7 +391,7 @@
                         Tekrar Hoş Geldiniz!
                     </h2>
                     <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">
-                        Sisteme erişmek için bilgilerinizi doldurun veya hızlı demo hesapları kullanın.
+                        Sisteme erişmek için e-posta ve şifrenizi girin.
                     </p>
                 </div>
 
@@ -433,25 +405,6 @@
                         </ul>
                     </div>
                 @endif
-
-                <!-- Demo Accounts Fast Selector -->
-                <div style="margin-bottom: 1.5rem;">
-                    <label class="input-label" style="font-weight: 700;">Hızlı Giriş Seçenekleri (Demo):</label>
-                    <div class="demo-badge-container" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                        <button type="button" class="demo-badge" onclick="fillCredentials('bozoglanahmet02@gmail.com', 'Abozoglan01.')">
-                            👑 Süper Admin
-                        </button>
-                        <button type="button" class="demo-badge" onclick="fillCredentials('admin@ogrenci.com', 'password')">
-                            🔒 Admin (Kurum)
-                        </button>
-                        <button type="button" class="demo-badge" onclick="fillCredentials('coach1@ogrenci.com', 'password')">
-                            💼 Koç
-                        </button>
-                        <button type="button" class="demo-badge" onclick="fillCredentials('student1@ogrenci.com', 'password')">
-                            🎓 Öğrenci
-                        </button>
-                    </div>
-                </div>
 
                 <form method="POST" action="{{ route('login') }}" style="display: flex; flex-direction: column; gap: 0.25rem;">
                     @csrf
@@ -526,20 +479,6 @@
 
     <!-- JS Helper Functions -->
     <script>
-        function fillCredentials(email, password) {
-            document.getElementById('email').value = email;
-            document.getElementById('password').value = password;
-            
-            // Add subtle click highlight to input fields
-            const inputs = [document.getElementById('email'), document.getElementById('password')];
-            inputs.forEach(input => {
-                input.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    input.style.transform = 'scale(1)';
-                }, 200);
-            });
-        }
-
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');
             const eyeIcon = document.getElementById('eye-icon');
