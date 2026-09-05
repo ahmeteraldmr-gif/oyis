@@ -48,9 +48,19 @@ class MySchedule extends Component
 
         $progress->status = $newStatus;
         
-        if ($newStatus === 'completed' && !$progress->completed_at) {
-            $progress->completed_at = now();
-        } elseif ($newStatus !== 'completed') {
+        if (in_array($newStatus, ['in_progress', 'completed']) && !$progress->started_at) {
+            $progress->started_at = now();
+        }
+
+        if ($newStatus === 'completed') {
+            if (!$progress->completed_at) {
+                $progress->completed_at = now();
+            }
+        } elseif ($newStatus === 'not_started') {
+            $progress->started_at = null;
+            $progress->completed_at = null;
+        } else {
+            // If switched back to in_progress, clear completed_at
             $progress->completed_at = null;
         }
 

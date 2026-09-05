@@ -14,6 +14,7 @@ class ScheduleProgress extends Model
         'student_id',
         'week_start_date',
         'status',
+        'started_at',
         'completed_at',
         'student_notes',
     ];
@@ -22,6 +23,7 @@ class ScheduleProgress extends Model
     {
         return [
             'week_start_date' => 'date',
+            'started_at' => 'datetime',
             'completed_at' => 'datetime',
         ];
     }

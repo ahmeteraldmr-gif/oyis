@@ -217,6 +217,32 @@
                                                     </div>
                                                 @endif
 
+                                                <!-- Başlama / Bitiş Zamanı ve Süre Bilgisi -->
+                                                @if($itemProgress)
+                                                    <div class="flex flex-wrap items-center gap-2 mt-2.5 text-xs">
+                                                        @if($itemProgress->started_at)
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-900 border border-amber-200 font-medium">
+                                                                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                                <span>Başlama: <strong class="font-bold">{{ $itemProgress->started_at->format('d.m.Y H:i') }}</strong></span>
+                                                            </span>
+                                                        @endif
+                                                        @if($itemProgress->completed_at)
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-900 border border-emerald-200 font-medium">
+                                                                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                                                <span>Bitiş: <strong class="font-bold">{{ $itemProgress->completed_at->format('d.m.Y H:i') }}</strong></span>
+                                                            </span>
+                                                        @endif
+                                                        @if($itemProgress->started_at && $itemProgress->completed_at)
+                                                            @php
+                                                                $diffMins = $itemProgress->started_at->diffInMinutes($itemProgress->completed_at);
+                                                            @endphp
+                                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-900 border border-indigo-200 font-bold">
+                                                                ⏱️ Süre: {{ $diffMins >= 60 ? floor($diffMins/60).' saat '.($diffMins%60).' dk' : ($diffMins == 0 ? '< 1 dk' : $diffMins.' dk') }}
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                @endif
+
                                                 <!-- Öğrenci Notu -->
                                                 @if($editingNoteFor === $item->id)
                                                     <div class="mt-3">
