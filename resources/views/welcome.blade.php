@@ -96,6 +96,7 @@
                 <a href="#nedir" class="hover:text-indigo-600 transition">Nedir?</a>
                 <a href="#neden-var" class="hover:text-indigo-600 transition">Neden RehberKoçum?</a>
                 <a href="#ozellikler" class="hover:text-indigo-600 transition">Özellikler</a>
+                <a href="#nasil-calisir" class="hover:text-indigo-600 transition">Nasıl Çalışır?</a>
             </nav>
             
             <div class="flex items-center space-x-4">
@@ -233,6 +234,318 @@
             </div>
         </section>
 
+        <!-- ===== NASIL ÇALIŞIR? - Animasyonlu Demo Bölümü ===== -->
+        <section id="nasil-calisir" class="space-y-12">
+            <!-- Section Header -->
+            <div class="text-center space-y-4 max-w-3xl mx-auto">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                    🎬 Canlı Demo
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Nasıl Çalışır?</h2>
+                <p class="text-slate-600 text-sm md:text-base">RehberKoçum'un koçluk sürecini nasıl kolaylaştırdığını 4 adımda keşfedin.</p>
+            </div>
+
+            <!-- Video Player Shell -->
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-slate-900" style="max-width: 900px; margin: 0 auto;">
+
+                <!-- Fake Browser Top Bar -->
+                <div class="flex items-center gap-2 px-5 py-3 bg-slate-800 border-b border-slate-700">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                    <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                    <div class="flex-1 mx-4 bg-slate-700 rounded-md px-3 py-1 text-xs text-slate-400 font-mono">rehberkoçum.com/dashboard</div>
+                </div>
+
+                <!-- Demo Screen Area -->
+                <div class="relative" style="min-height: 420px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);">
+
+                    <!-- Step Panels (shown/hidden via JS) -->
+
+                    <!-- Step 1: Koç Öğrenci Ekler -->
+                    <div id="demo-step-1" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-6 transition-all duration-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full">Adım 1</span>
+                            <span class="text-white font-bold text-lg">Koç → Öğrenci Oluşturur</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Mock form card -->
+                            <div class="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-5 space-y-3">
+                                <div class="text-white text-sm font-semibold mb-3">✏️ Yeni Öğrenci Ekle</div>
+                                <div class="space-y-2">
+                                    <div class="h-8 bg-white/20 rounded-lg flex items-center px-3">
+                                        <span class="text-white/60 text-xs">Ali Yılmaz</span>
+                                    </div>
+                                    <div class="h-8 bg-white/20 rounded-lg flex items-center px-3">
+                                        <span class="text-white/60 text-xs">ali@gmail.com</span>
+                                    </div>
+                                    <div class="h-8 bg-white/20 rounded-lg flex items-center px-3">
+                                        <span class="text-white/60 text-xs">••••••••</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3 h-9 bg-indigo-500 rounded-lg flex items-center justify-center text-white text-xs font-bold animate-pulse">
+                                    ✓ Öğrenci Oluşturuldu!
+                                </div>
+                            </div>
+                            <!-- Mock student card -->
+                            <div class="space-y-3">
+                                <div class="text-white/70 text-xs font-semibold uppercase tracking-wider mb-2">Öğrenci Listesi</div>
+                                <div class="bg-white/10 border border-white/20 rounded-xl p-3 flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-sm">A</div>
+                                    <div>
+                                        <div class="text-white text-sm font-semibold">Ali Yılmaz</div>
+                                        <div class="text-white/50 text-xs">ali@gmail.com</div>
+                                    </div>
+                                    <span class="ml-auto px-2 py-0.5 bg-emerald-500/30 text-emerald-300 text-xs rounded-full">Aktif</span>
+                                </div>
+                                <div class="bg-white/05 border border-white/10 rounded-xl p-3 flex items-center gap-3 opacity-50">
+                                    <div class="w-9 h-9 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-sm">Z</div>
+                                    <div>
+                                        <div class="text-white text-sm font-semibold">Zeynep Kara</div>
+                                        <div class="text-white/50 text-xs">zeynep@gmail.com</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Ders Ataması -->
+                    <div id="demo-step-2" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-4 hidden transition-all duration-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full">Adım 2</span>
+                            <span class="text-white font-bold text-lg">Koç → Ders & Konu Atar</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <!-- Field cards -->
+                            <div class="bg-emerald-500/20 border border-emerald-400/40 rounded-xl p-4 space-y-2">
+                                <div class="text-emerald-300 text-xs font-bold uppercase">TYT</div>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-sm bg-emerald-400"></div>
+                                        <span class="text-white text-xs">Matematik</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-sm bg-emerald-400"></div>
+                                        <span class="text-white text-xs">Türkçe</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-sm bg-white/20"></div>
+                                        <span class="text-white/50 text-xs">Fizik</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-indigo-500/20 border border-indigo-400/40 rounded-xl p-4 space-y-2">
+                                <div class="text-indigo-300 text-xs font-bold uppercase">AYT</div>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-sm bg-indigo-400"></div>
+                                        <span class="text-white text-xs">Kimya</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 rounded-sm bg-white/20"></div>
+                                        <span class="text-white/50 text-xs">Biyoloji</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 border border-white/20 rounded-xl p-4 col-span-2 md:col-span-1">
+                                <div class="text-white/70 text-xs font-bold uppercase mb-2">📬 Atanan Konular</div>
+                                <div class="space-y-1.5">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white text-xs">Matematik - Limit</span>
+                                        <span class="text-emerald-400 text-xs">✓</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white text-xs">Türkçe - Paragraf</span>
+                                        <span class="text-emerald-400 text-xs">✓</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-white text-xs">Kimya - Mol</span>
+                                        <span class="text-yellow-400 text-xs animate-pulse">...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Haftalık Program -->
+                    <div id="demo-step-3" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-4 hidden transition-all duration-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full">Adım 3</span>
+                            <span class="text-white font-bold text-lg">Koç → Haftalık Program Hazırlar</span>
+                        </div>
+                        <!-- Mini schedule grid -->
+                        <div class="overflow-auto">
+                            <table class="w-full text-xs text-white border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 px-2 bg-white/10 border border-white/10 text-white/60 font-semibold text-left w-20">Saat</th>
+                                        @foreach(['Pzt', 'Sal', 'Çar', 'Per', 'Cum'] as $day)
+                                        <th class="py-2 px-2 bg-white/10 border border-white/10 text-white/70 font-semibold text-center">{{ $day }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-2 border border-white/10 text-white/50">09:00</td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-indigo-500/70 rounded px-2 py-1 text-center">Matematik</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-emerald-500/70 rounded px-2 py-1 text-center">Türkçe</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10"></td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-purple-500/70 rounded px-2 py-1 text-center">Kimya</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-indigo-500/70 rounded px-2 py-1 text-center">Matematik</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-2 border border-white/10 text-white/50">11:00</td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-yellow-500/70 rounded px-2 py-1 text-center">Fizik</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10"></td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-emerald-500/70 rounded px-2 py-1 text-center">Türkçe</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-indigo-500/70 rounded px-2 py-1 text-center">Matematik</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-2 border border-white/10 text-white/50">14:00</td>
+                                        <td class="py-1.5 px-1 border border-white/10"></td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-purple-500/70 rounded px-2 py-1 text-center">Kimya</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-yellow-500/70 rounded px-2 py-1 text-center">Fizik</div>
+                                        </td>
+                                        <td class="py-1.5 px-1 border border-white/10"></td>
+                                        <td class="py-1.5 px-1 border border-white/10">
+                                            <div class="bg-emerald-500/70 rounded px-2 py-1 text-center animate-pulse">Türkçe ✏️</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Öğrenci Takibi & Analiz -->
+                    <div id="demo-step-4" class="demo-panel absolute inset-0 p-6 md:p-10 flex flex-col gap-4 hidden transition-all duration-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-3 py-1 bg-rose-600 text-white text-xs font-bold rounded-full">Adım 4</span>
+                            <span class="text-white font-bold text-lg">Koç → Öğrenci Gelişimini Takip Eder</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Stat cards -->
+                            <div class="bg-white/10 border border-white/20 rounded-2xl p-4 space-y-2">
+                                <div class="text-white/60 text-xs uppercase font-bold">TYT Net Ortalaması</div>
+                                <div class="text-4xl font-black text-white">74.5</div>
+                                <div class="text-emerald-400 text-xs font-semibold">↑ +3.2 bu hafta</div>
+                                <!-- Bar chart simulation -->
+                                <div class="flex items-end gap-1 h-12 mt-2">
+                                    <div class="flex-1 bg-indigo-500/50 rounded-sm" style="height: 40%"></div>
+                                    <div class="flex-1 bg-indigo-500/60 rounded-sm" style="height: 55%"></div>
+                                    <div class="flex-1 bg-indigo-500/70 rounded-sm" style="height: 48%"></div>
+                                    <div class="flex-1 bg-indigo-500/80 rounded-sm" style="height: 65%"></div>
+                                    <div class="flex-1 bg-indigo-500/90 rounded-sm" style="height: 72%"></div>
+                                    <div class="flex-1 bg-indigo-400 rounded-sm animate-pulse" style="height: 88%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 border border-white/20 rounded-2xl p-4 space-y-2">
+                                <div class="text-white/60 text-xs uppercase font-bold">Tamamlanan Görevler</div>
+                                <div class="text-4xl font-black text-white">18<span class="text-xl text-white/40">/24</span></div>
+                                <div class="text-yellow-400 text-xs font-semibold">%75 Tamamlandı</div>
+                                <!-- Progress bar -->
+                                <div class="w-full h-2 bg-white/20 rounded-full mt-2">
+                                    <div class="h-2 bg-yellow-400 rounded-full" style="width: 75%; transition: width 1s ease;"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 border border-white/20 rounded-2xl p-4 space-y-3">
+                                <div class="text-white/60 text-xs uppercase font-bold">Son Aktiviteler</div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></div>
+                                        <span class="text-white text-xs">Limit konusu tamamlandı</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"></div>
+                                        <span class="text-white text-xs">35 soru çözüldü</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-yellow-400 flex-shrink-0 animate-pulse"></div>
+                                        <span class="text-white text-xs">Deneme sonucu girildi</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar at bottom -->
+                    <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
+                        <div id="demo-progress-bar" class="h-1 bg-indigo-400 transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Player Controls -->
+                <div class="bg-slate-800 px-6 py-4 flex flex-col gap-3">
+                    <!-- Step indicators & step title -->
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <button onclick="goToStep(1)" id="step-btn-1" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-indigo-600 text-white">
+                            <span>1</span> Öğrenci Ekle
+                        </button>
+                        <button onclick="goToStep(2)" id="step-btn-2" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20">
+                            <span>2</span> Ders Ata
+                        </button>
+                        <button onclick="goToStep(3)" id="step-btn-3" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20">
+                            <span>3</span> Program Oluştur
+                        </button>
+                        <button onclick="goToStep(4)" id="step-btn-4" class="step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20">
+                            <span>4</span> Gelişimi İzle
+                        </button>
+
+                        <!-- Play/Pause button -->
+                        <button id="play-pause-btn" onclick="togglePlayPause()" class="ml-auto flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white transition-all">
+                            <svg id="play-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg id="pause-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                            <span id="play-btn-text">Otomatik Oynat</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step descriptions below player -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-6">
+                <div class="text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg mx-auto">👤</div>
+                    <h4 class="text-sm font-bold text-slate-900">Öğrenci Ekle</h4>
+                    <p class="text-xs text-slate-500">Saniyeler içinde öğrencini sisteme ekle, giriş bilgilerini oluştur.</p>
+                </div>
+                <div class="text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg mx-auto">📚</div>
+                    <h4 class="text-sm font-bold text-slate-900">Ders Ata</h4>
+                    <p class="text-xs text-slate-500">TYT & AYT derslerini ve konularını tek tıkla öğrenciye ata.</p>
+                </div>
+                <div class="text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-lg mx-auto">🗓️</div>
+                    <h4 class="text-sm font-bold text-slate-900">Program Kur</h4>
+                    <p class="text-xs text-slate-500">Saatli haftalık çalışma programı oluştur, öğrenci panelinde yayınla.</p>
+                </div>
+                <div class="text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-lg mx-auto">📊</div>
+                    <h4 class="text-sm font-bold text-slate-900">Gelişimi Takip Et</h4>
+                    <p class="text-xs text-slate-500">Net analizleri, görev tamamlama ve deneme gelişimini anlık izle.</p>
+                </div>
+            </div>
+        </section>
+
         {{-- Subscription Packages (Geçici olarak kaldırıldı) --}}
     </main>
 
@@ -265,5 +578,96 @@
         </div>
     </footer>
 
+<script>
+    const TOTAL_STEPS = 4;
+    const STEP_DURATION = 4000; // ms per step
+    let currentStep = 1;
+    let isPlaying = false;
+    let autoTimer = null;
+    let progressTimer = null;
+    let progressStart = null;
+
+    function goToStep(step) {
+        // Hide all panels
+        for (let i = 1; i <= TOTAL_STEPS; i++) {
+            const panel = document.getElementById('demo-step-' + i);
+            const btn = document.getElementById('step-btn-' + i);
+            if (panel) panel.classList.add('hidden');
+            if (btn) {
+                btn.className = 'step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white/10 text-white/60 hover:bg-white/20';
+            }
+        }
+
+        // Show active panel
+        const activePanel = document.getElementById('demo-step-' + step);
+        const activeBtn = document.getElementById('step-btn-' + step);
+        if (activePanel) activePanel.classList.remove('hidden');
+
+        // Color active button per step
+        const colors = {
+            1: 'bg-indigo-600 text-white',
+            2: 'bg-emerald-600 text-white',
+            3: 'bg-purple-600 text-white',
+            4: 'bg-rose-600 text-white'
+        };
+        if (activeBtn) {
+            activeBtn.className = 'step-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ' + colors[step];
+        }
+
+        currentStep = step;
+        resetProgressBar();
+
+        // If playing, restart progress animation
+        if (isPlaying) startProgressBar();
+    }
+
+    function resetProgressBar() {
+        clearInterval(progressTimer);
+        const bar = document.getElementById('demo-progress-bar');
+        if (bar) bar.style.width = '0%';
+        progressStart = null;
+    }
+
+    function startProgressBar() {
+        resetProgressBar();
+        progressStart = Date.now();
+        progressTimer = setInterval(function() {
+            const elapsed = Date.now() - progressStart;
+            const pct = Math.min((elapsed / STEP_DURATION) * 100, 100);
+            const bar = document.getElementById('demo-progress-bar');
+            if (bar) bar.style.width = pct + '%';
+            if (pct >= 100) {
+                clearInterval(progressTimer);
+                const next = currentStep < TOTAL_STEPS ? currentStep + 1 : 1;
+                setTimeout(function() { goToStep(next); }, 300);
+            }
+        }, 50);
+    }
+
+    function togglePlayPause() {
+        isPlaying = !isPlaying;
+
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const btnText = document.getElementById('play-btn-text');
+
+        if (isPlaying) {
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+            btnText.textContent = 'Duraklat';
+            startProgressBar();
+        } else {
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+            btnText.textContent = 'Otomatik Oynat';
+            resetProgressBar();
+        }
+    }
+
+    // Init: show step 1
+    document.addEventListener('DOMContentLoaded', function() {
+        goToStep(1);
+    });
+</script>
 </body>
 </html>
