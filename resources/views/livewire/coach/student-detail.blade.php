@@ -130,6 +130,219 @@
         </div>
     </div>
 
+    <!-- ===== GELİŞİM GRAFİKLERİ PANELİ ===== -->
+    <div class="mb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+        <!-- 1. Konu Tamamlama Donut -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-sm font-bold text-gray-800">Konu Tamamlama</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Atanan konular</p>
+                </div>
+                <span class="text-2xl font-black text-indigo-600">{{ $completionPercentage }}%</span>
+            </div>
+            <div class="flex-1 flex items-center justify-center" style="min-height:180px;">
+                <canvas id="chart-completion" width="180" height="180"></canvas>
+            </div>
+            <div class="flex justify-center gap-4 mt-4 text-xs text-gray-500">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full inline-block" style="background:#6366f1;"></span>
+                    Tamamlanan ({{ $completedCount }})
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full inline-block bg-gray-200"></span>
+                    Kalan ({{ $totalAssignments - $completedCount }})
+                </span>
+            </div>
+        </div>
+
+        <!-- 2. Soru Doğruluk Oranı Gauge -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-sm font-bold text-gray-800">Soru Doğruluk</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Doğru / Toplam</p>
+                </div>
+                @php $accuracy = $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 1) : 0; @endphp
+                <span class="text-2xl font-black {{ $accuracy >= 70 ? 'text-emerald-600' : ($accuracy >= 50 ? 'text-yellow-600' : 'text-rose-600') }}">
+                    {{ $accuracy }}%
+                </span>
+            </div>
+            <div class="flex-1 flex items-center justify-center" style="min-height:180px;">
+                <canvas id="chart-accuracy" width="180" height="180"></canvas>
+            </div>
+            <div class="flex justify-center gap-4 mt-4 text-xs text-gray-500">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full inline-block bg-emerald-500"></span>
+                    Doğru ({{ number_format($correctAnswers) }})
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full inline-block bg-rose-400"></span>
+                    Yanlış ({{ number_format($totalQuestions - $correctAnswers) }})
+                </span>
+            </div>
+        </div>
+
+        <!-- 3. Alan Bazlı Deneme Net Ortalaması Bar -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-sm font-bold text-gray-800">Alan Net Ortalaması</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Denemeler bazında</p>
+                </div>
+                <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">{{ $totalExams }} deneme</span>
+            </div>
+            <div class="flex-1" style="min-height:180px; position:relative;">
+                @if($examStats->count() > 0)
+                    <canvas id="chart-exam-bar"></canvas>
+                @else
+                    <div class="flex flex-col items-center justify-center h-full text-gray-300 gap-2">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <span class="text-xs text-gray-400">Henüz deneme girilmedi</span>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Alan Bazlı Başarı Çubuğu (Tüm alanlardaki tamamlama oranı) -->
+    @if($assignments->count() > 0)
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
+        <div class="flex items-center justify-between mb-5">
+            <div>
+                <h3 class="text-sm font-bold text-gray-800">Alan Bazlı Konu Tamamlama</h3>
+                <p class="text-xs text-gray-400 mt-0.5">Her alana göre ilerleme durumu</p>
+            </div>
+        </div>
+        <div class="space-y-3">
+            @foreach($assignments as $fieldName => $fieldAssignments)
+                @php
+                    $ft = $fieldAssignments->count();
+                    $fc = $fieldAssignments->filter(fn($a) => $a->progress && $a->progress->is_completed)->count();
+                    $fp = $ft > 0 ? round(($fc / $ft) * 100) : 0;
+                    $barColor = $fp >= 80 ? '#10b981' : ($fp >= 50 ? '#6366f1' : ($fp >= 30 ? '#f59e0b' : '#f43f5e'));
+                @endphp
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-semibold text-gray-700">{{ $fieldName }}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs text-gray-400">{{ $fc }}/{{ $ft }} konu</span>
+                            <span class="text-xs font-bold" style="color: {{ $barColor }};">{{ $fp }}%</span>
+                        </div>
+                    </div>
+                    <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div class="h-2.5 rounded-full transition-all duration-700"
+                             style="width: {{ $fp }}%; background: {{ $barColor }};"></div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+    <!-- ===== GRAFİKLER PANELİ BİTİŞ ===== -->
+
+    <!-- Chart.js CDN + Init -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+    var _chartInstances = {};
+
+    function initStudentCharts() {
+        // Destroy old instances to prevent duplicate charts on Livewire re-render
+        Object.values(_chartInstances).forEach(function(c){ try { c.destroy(); } catch(e){} });
+        _chartInstances = {};
+
+        Chart.defaults.font.family = "'Plus Jakarta Sans', 'Inter', sans-serif";
+
+        // 1. Konu Tamamlama Donut
+        var el1 = document.getElementById('chart-completion');
+        if (el1) {
+            _chartInstances.completion = new Chart(el1, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [{{ (int)$completedCount }}, {{ max(0, (int)($totalAssignments - $completedCount)) }} || 0.01],
+                        backgroundColor: ['#6366f1', '#e5e7eb'],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    cutout: '75%', responsive: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    animation: { animateRotate: true, duration: 900 }
+                }
+            });
+        }
+
+        // 2. Soru Doğruluk Donut
+        var el2 = document.getElementById('chart-accuracy');
+        if (el2) {
+            _chartInstances.accuracy = new Chart(el2, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [{{ (int)$correctAnswers }}, {{ max(0, (int)($totalQuestions - $correctAnswers)) }} || 0.01],
+                        backgroundColor: ['#10b981', '#fb7185'],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    cutout: '75%', responsive: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    animation: { animateRotate: true, duration: 900 }
+                }
+            });
+        }
+
+        // 3. Alan Net Bar
+        var el3 = document.getElementById('chart-exam-bar');
+        if (el3) {
+            var labels = {!! json_encode($examStats->pluck('field.name')->values()) !!};
+            var data   = {!! json_encode($examStats->pluck('avg_net')->map(fn($v) => round((float)$v, 1))->values()) !!};
+            var colors = ['#6366f1','#10b981','#f59e0b','#f43f5e','#8b5cf6','#06b6d4'];
+            _chartInstances.examBar = new Chart(el3, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Ort. Net',
+                        data: data,
+                        backgroundColor: labels.map(function(_, i){ return colors[i % colors.length] + 'cc'; }),
+                        borderColor:     labels.map(function(_, i){ return colors[i % colors.length]; }),
+                        borderWidth: 2, borderRadius: 8, borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: function(ctx){ return ' Net: ' + parseFloat(ctx.parsed.y).toFixed(1); } } }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 10 } } }
+                    },
+                    animation: { duration: 900 }
+                }
+            });
+        }
+    }
+
+    // First load
+    document.addEventListener('DOMContentLoaded', initStudentCharts);
+
+    // Livewire re-renders (Livewire v3)
+    document.addEventListener('livewire:navigated', initStudentCharts);
+    if (typeof Livewire !== 'undefined') {
+        Livewire.hook('morph.updated', function() { setTimeout(initStudentCharts, 50); });
+    }
+    </script>
+
+
     <!-- Tab Navigasyonu -->
     <div class="border-b border-gray-200 mb-6">
         <nav class="-mb-px flex space-x-8">
