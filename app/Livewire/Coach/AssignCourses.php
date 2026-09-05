@@ -92,15 +92,27 @@ class AssignCourses extends Component
         // Bu alandaki tüm dersleri, konuları ve alt konuları ata
         foreach ($field->courses as $course) {
             foreach ($course->topics as $topic) {
-                foreach ($topic->subTopics as $subTopic) {
+                if ($topic->subTopics->count() > 0) {
+                    foreach ($topic->subTopics as $subTopic) {
+                        StudentAssignment::firstOrCreate([
+                            'student_id' => $this->studentId,
+                            'coach_id' => auth()->id(),
+                            'course_id' => $course->id,
+                            'topic_id' => $topic->id,
+                            'sub_topic_id' => $subTopic->id,
+                        ], [
+                            'assignment_type' => 'sub_topic',
+                        ]);
+                    }
+                } else {
                     StudentAssignment::firstOrCreate([
                         'student_id' => $this->studentId,
                         'coach_id' => auth()->id(),
                         'course_id' => $course->id,
                         'topic_id' => $topic->id,
-                        'sub_topic_id' => $subTopic->id,
+                        'sub_topic_id' => null,
                     ], [
-                        'assignment_type' => 'sub_topic',
+                        'assignment_type' => 'topic',
                     ]);
                 }
             }
@@ -114,15 +126,27 @@ class AssignCourses extends Component
         $course = Course::with('topics.subTopics')->findOrFail($courseId);
         
         foreach ($course->topics as $topic) {
-            foreach ($topic->subTopics as $subTopic) {
+            if ($topic->subTopics->count() > 0) {
+                foreach ($topic->subTopics as $subTopic) {
+                    StudentAssignment::firstOrCreate([
+                        'student_id' => $this->studentId,
+                        'coach_id' => auth()->id(),
+                        'course_id' => $course->id,
+                        'topic_id' => $topic->id,
+                        'sub_topic_id' => $subTopic->id,
+                    ], [
+                        'assignment_type' => 'sub_topic',
+                    ]);
+                }
+            } else {
                 StudentAssignment::firstOrCreate([
                     'student_id' => $this->studentId,
                     'coach_id' => auth()->id(),
                     'course_id' => $course->id,
                     'topic_id' => $topic->id,
-                    'sub_topic_id' => $subTopic->id,
+                    'sub_topic_id' => null,
                 ], [
-                    'assignment_type' => 'sub_topic',
+                    'assignment_type' => 'topic',
                 ]);
             }
         }
@@ -134,15 +158,27 @@ class AssignCourses extends Component
     {
         $topic = Topic::with('subTopics')->findOrFail($topicId);
         
-        foreach ($topic->subTopics as $subTopic) {
+        if ($topic->subTopics->count() > 0) {
+            foreach ($topic->subTopics as $subTopic) {
+                StudentAssignment::firstOrCreate([
+                    'student_id' => $this->studentId,
+                    'coach_id' => auth()->id(),
+                    'course_id' => $topic->course_id,
+                    'topic_id' => $topic->id,
+                    'sub_topic_id' => $subTopic->id,
+                ], [
+                    'assignment_type' => 'sub_topic',
+                ]);
+            }
+        } else {
             StudentAssignment::firstOrCreate([
                 'student_id' => $this->studentId,
                 'coach_id' => auth()->id(),
                 'course_id' => $topic->course_id,
                 'topic_id' => $topic->id,
-                'sub_topic_id' => $subTopic->id,
+                'sub_topic_id' => null,
             ], [
-                'assignment_type' => 'sub_topic',
+                'assignment_type' => 'topic',
             ]);
         }
 

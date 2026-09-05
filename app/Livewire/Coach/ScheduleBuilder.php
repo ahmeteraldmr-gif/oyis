@@ -463,8 +463,12 @@ class ScheduleBuilder extends Component
     public function saveItem()
     {
         if (!$this->scheduleId) {
-            session()->flash('error', 'Önce programı kaydedin.');
-            return;
+            if ($this->studentId) {
+                $this->saveSchedule();
+            } else {
+                session()->flash('error', 'Lütfen önce bir öğrenci seçin.');
+                return;
+            }
         }
 
         $rules = [

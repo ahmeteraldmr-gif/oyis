@@ -10,6 +10,40 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
+@php
+    $studentUser = auth()->user();
+    
+    // Aktif haftalık programdaki görev sayısı
+    $activeSchedule = \App\Models\StudySchedule::where('student_id', $studentUser->id)
+        ->where('is_active', true)
+        ->latest('id')
+        ->first();
+        
+    $pendingScheduleItemsCount = 0;
+    if ($activeSchedule) {
+        $completedScheduleItemIds = \App\Models\ScheduleProgress::where('student_id', $studentUser->id)
+            ->where('status', 'completed')
+            ->pluck('schedule_item_id');
+            
+        $pendingScheduleItemsCount = $activeSchedule->items()
+            ->whereNotIn('id', $completedScheduleItemIds)
+            ->count();
+    }
+    
+    // Tamamlanmamış ders atamaları sayısı
+    $pendingAssignmentsCount = \App\Models\StudentAssignment::where('student_id', $studentUser->id)
+        ->whereDoesntHave('progress', function($q) {
+            $q->where('is_completed', true);
+        })
+        ->count();
+        
+    // Atanan kaynak sayısı
+    $assignedResourcesCount = \App\Models\StudentResource::where('student_id', $studentUser->id)->count();
+
+    // Toplam bildirim sayısı
+    $totalNotificationCount = $pendingScheduleItemsCount + $pendingAssignmentsCount;
+@endphp
+
 <body class="bg-secondary-50 antialiased">
     <div class="flex h-screen overflow-hidden">
         <div class="hidden md:flex md:flex-shrink-0">
@@ -41,25 +75,46 @@
                             Dashboard
                         </a>
                         
-                        <a href="{{ route('student.courses') }}" class="sidebar-link {{ request()->routeIs('student.courses') ? 'active' : '' }}">
-                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                            </svg>
-                            Derslerim
+                        <a href="{{ route('student.courses') }}" class="sidebar-link flex items-center justify-between {{ request()->routeIs('student.courses') ? 'active' : '' }}">
+                            <div class="flex items-center">
+                                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                                Derslerim
+                            </div>
+                            @if($pendingAssignmentsCount > 0)
+                                <span class="py-0.5 px-2 text-xs font-bold rounded-full bg-indigo-100 text-indigo-800">
+                                    {{ $pendingAssignmentsCount }}
+                                </span>
+                            @endif
                         </a>
                         
-                        <a href="{{ route('student.schedule') }}" class="sidebar-link {{ request()->routeIs('student.schedule') ? 'active' : '' }}">
-                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            Haftalık Programım
+                        <a href="{{ route('student.schedule') }}" class="sidebar-link flex items-center justify-between {{ request()->routeIs('student.schedule') ? 'active' : '' }}">
+                            <div class="flex items-center">
+                                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                Haftalık Programım
+                            </div>
+                            @if($pendingScheduleItemsCount > 0)
+                                <span class="py-0.5 px-2 text-xs font-bold rounded-full bg-red-100 text-red-700">
+                                    {{ $pendingScheduleItemsCount }}
+                                </span>
+                            @endif
                         </a>
                         
-                        <a href="{{ route('student.resources') }}" class="sidebar-link {{ request()->routeIs('student.resources') ? 'active' : '' }}">
-                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                            </svg>
-                            Kaynaklarım
+                        <a href="{{ route('student.resources') }}" class="sidebar-link flex items-center justify-between {{ request()->routeIs('student.resources') ? 'active' : '' }}">
+                            <div class="flex items-center">
+                                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                                Kaynaklarım
+                            </div>
+                            @if($assignedResourcesCount > 0)
+                                <span class="py-0.5 px-2 text-xs font-bold rounded-full bg-blue-100 text-blue-800">
+                                    {{ $assignedResourcesCount }}
+                                </span>
+                            @endif
                         </a>
                         
                         <a href="{{ route('student.questions') }}" class="sidebar-link {{ request()->routeIs('student.questions') ? 'active' : '' }}">
@@ -107,6 +162,30 @@
         </div>
 
         <div class="flex flex-col w-0 flex-1 overflow-hidden">
+            <!-- Top Header Bar with Notifications Bell -->
+            <div class="bg-white border-b border-gray-200 px-6 py-3.5 flex items-center justify-between shadow-sm z-10">
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm font-semibold text-gray-700">
+                        Hoş Geldin, <span class="text-indigo-600 font-bold">{{ auth()->user()->name }}</span> 👋
+                    </span>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Notification Bell Button -->
+                    <a href="{{ route('student.schedule') }}" class="relative p-2 text-gray-600 hover:text-indigo-600 transition flex items-center gap-1 text-xs font-semibold bg-gray-50 hover:bg-indigo-50 border border-gray-200 rounded-lg" title="Bildirimler & Bekleyen Görevler">
+                        <svg class="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                        <span>Bildirimler</span>
+                        @if($totalNotificationCount > 0)
+                            <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-extrabold leading-none text-white bg-red-600 rounded-full shadow animate-pulse">
+                                {{ $totalNotificationCount > 99 ? '99+' : $totalNotificationCount }}
+                            </span>
+                        @endif
+                    </a>
+                </div>
+            </div>
+
             <main class="flex-1 relative overflow-y-auto focus:outline-none">
                 <div class="py-6">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">

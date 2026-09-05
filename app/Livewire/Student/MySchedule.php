@@ -98,6 +98,7 @@ class MySchedule extends Component
         $schedule = StudySchedule::where('student_id', auth()->id())
             ->where('is_active', true)
             ->with(['items.course', 'items.topic', 'items.subTopic'])
+            ->latest('id')
             ->first();
 
         $progress = collect();
