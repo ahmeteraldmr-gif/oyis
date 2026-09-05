@@ -330,22 +330,22 @@
                     </div>
 
                     <!-- Panels -->
-                    <div class="relative flex-1" style="min-height:380px;">
+                    <div class="relative flex-1 min-h-[460px] md:min-h-[380px]">
 
                         <!-- Panel 0 -->
-                        <div id="dpanel-0" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:1;transition:opacity 0.5s;">
+                        <div id="dpanel-0" class="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col gap-4 overflow-y-auto" style="opacity:1;transition:opacity 0.5s;">
                             <div class="flex items-center gap-3">
-                                <div class="w-1.5 h-6 rounded-full bg-indigo-500"></div>
-                                <h3 class="text-white font-extrabold">Yeni Öğrenci Oluştur</h3>
-                                <span class="ml-auto text-white/30 text-[10px] font-mono">koç › öğrenciler › yeni</span>
+                                <div class="w-1.5 h-6 rounded-full bg-indigo-500 flex-shrink-0"></div>
+                                <h3 class="text-white font-extrabold text-sm sm:text-base">Yeni Öğrenci Oluştur</h3>
+                                <span class="ml-auto text-white/30 text-[10px] font-mono hidden sm:inline">koç › öğrenciler › yeni</span>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 flex-1">
-                                <div class="md:col-span-3 bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+                                <div class="md:col-span-3 bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-5 space-y-3">
                                     <div class="grid grid-cols-2 gap-3">
                                         <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Ad</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">Ali</span><span class="w-0.5 h-4 bg-indigo-400 ml-0.5 animate-pulse"></span></div></div>
                                         <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Soyad</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">Yılmaz</span></div></div>
                                     </div>
-                                    <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">E-posta</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">ali.yilmaz@gmail.com</span></div></div>
+                                    <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">E-posta</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs truncate">ali.yilmaz@gmail.com</span></div></div>
                                     <div class="grid grid-cols-2 gap-3">
                                         <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Şifre</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">••••••••</span></div></div>
                                         <div><div class="text-white/40 text-[10px] uppercase font-bold mb-1">Sınıf</div><div class="bg-white/10 border border-white/15 rounded-lg h-9 flex items-center px-3"><span class="text-white/70 text-xs">12. Sınıf</span></div></div>
@@ -356,7 +356,7 @@
                                     </div>
                                 </div>
                                 <div class="md:col-span-2 space-y-2">
-                                    <div class="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-3">Kayıtlı Öğrenciler</div>
+                                    <div class="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-2">Kayıtlı Öğrenciler</div>
                                     <div class="bg-indigo-500/20 border border-indigo-400/40 rounded-xl p-3 flex items-center gap-3">
                                         <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-black text-xs">AY</div>
                                         <div><div class="text-white text-xs font-semibold">Ali Yılmaz</div><div class="text-indigo-300 text-[10px]">Yeni eklendi ✓</div></div>
@@ -375,13 +375,13 @@
                         </div>
 
                         <!-- Panel 1 -->
-                        <div id="dpanel-1" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
+                        <div id="dpanel-1" class="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col gap-4 overflow-y-auto" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
                             <div class="flex items-center gap-3">
-                                <div class="w-1.5 h-6 rounded-full bg-emerald-500"></div>
-                                <h3 class="text-white font-extrabold">Ders & Konu Ataması</h3>
-                                <span class="ml-auto text-white/30 text-[10px] font-mono">koç › Ali Yılmaz › dersler</span>
+                                <div class="w-1.5 h-6 rounded-full bg-emerald-500 flex-shrink-0"></div>
+                                <h3 class="text-white font-extrabold text-sm sm:text-base">Ders & Konu Ataması</h3>
+                                <span class="ml-auto text-white/30 text-[10px] font-mono hidden sm:inline">koç › Ali Yılmaz › dersler</span>
                             </div>
-                            <div class="grid grid-cols-3 gap-3 flex-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 flex-1">
                                 <div class="bg-emerald-900/40 border border-emerald-500/30 rounded-2xl p-4">
                                     <div class="flex items-center justify-between mb-3"><span class="text-emerald-400 text-[10px] font-black uppercase tracking-wider">TYT</span><span class="text-emerald-400 text-[10px] bg-emerald-400/20 px-1.5 py-0.5 rounded-full">4/5</span></div>
                                     <div class="space-y-2">
@@ -412,14 +412,14 @@
                         </div>
 
                         <!-- Panel 2 -->
-                        <div id="dpanel-2" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
+                        <div id="dpanel-2" class="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col gap-4 overflow-y-auto" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
                             <div class="flex items-center gap-3">
-                                <div class="w-1.5 h-6 rounded-full bg-purple-500"></div>
-                                <h3 class="text-white font-extrabold">Haftalık Çalışma Programı</h3>
+                                <div class="w-1.5 h-6 rounded-full bg-purple-500 flex-shrink-0"></div>
+                                <h3 class="text-white font-extrabold text-sm sm:text-base">Haftalık Çalışma Programı</h3>
                                 <span class="ml-auto flex items-center gap-1.5 text-purple-300 text-[10px] font-bold bg-purple-500/20 px-2.5 py-1 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>Ali Yılmaz için</span>
                             </div>
-                            <div class="flex-1 overflow-auto">
-                                <table class="w-full text-[11px] text-white border-collapse">
+                            <div class="flex-1 overflow-x-auto">
+                                <table class="w-full text-[11px] text-white border-collapse min-w-[360px]">
                                     <thead><tr>
                                         <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/40 font-semibold text-left w-16">Saat</th>
                                         <th class="py-2 px-2 bg-white/5 border border-white/10 text-white/60 font-semibold text-center">Pzt</th>
@@ -466,16 +466,16 @@
                         </div>
 
                         <!-- Panel 3 -->
-                        <div id="dpanel-3" class="absolute inset-0 p-6 md:p-8 flex flex-col gap-4" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
+                        <div id="dpanel-3" class="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col gap-4 overflow-y-auto" style="opacity:0;transition:opacity 0.5s;pointer-events:none;">
                             <div class="flex items-center gap-3">
-                                <div class="w-1.5 h-6 rounded-full bg-rose-500"></div>
-                                <h3 class="text-white font-extrabold">Gelişim Takip Paneli</h3>
-                                <span class="ml-auto text-white/30 text-[10px] font-mono">Ali Yılmaz • Bu Hafta</span>
+                                <div class="w-1.5 h-6 rounded-full bg-rose-500 flex-shrink-0"></div>
+                                <h3 class="text-white font-extrabold text-sm sm:text-base">Gelişim Takip Paneli</h3>
+                                <span class="ml-auto text-white/30 text-[10px] font-mono hidden sm:inline">Ali Yılmaz • Bu Hafta</span>
                             </div>
-                            <div class="grid grid-cols-3 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <div class="bg-indigo-900/50 border border-indigo-500/30 rounded-2xl p-4">
                                     <div class="text-indigo-300 text-[10px] uppercase font-black tracking-wider">TYT Net Ort.</div>
-                                    <div class="text-3xl font-black text-white mt-1">74.5</div>
+                                    <div class="text-2xl sm:text-3xl font-black text-white mt-1">74.5</div>
                                     <div class="flex items-center gap-1 mt-1"><svg class="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"/></svg><span class="text-emerald-400 text-[10px] font-semibold">+3.2 bu hafta</span></div>
                                     <div class="flex items-end gap-0.5 h-10 mt-3">
                                         <div class="flex-1 bg-indigo-500/40 rounded-sm" style="height:35%"></div>
@@ -488,7 +488,7 @@
                                 </div>
                                 <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-2xl p-4">
                                     <div class="text-yellow-300 text-[10px] uppercase font-black tracking-wider">Görev Tamamlama</div>
-                                    <div class="text-3xl font-black text-white mt-1">18<span class="text-base text-white/30">/24</span></div>
+                                    <div class="text-2xl sm:text-3xl font-black text-white mt-1">18<span class="text-base text-white/30">/24</span></div>
                                     <div class="text-yellow-400 text-[10px] font-semibold mt-1">%75 Tamamlandı</div>
                                     <div class="w-full h-2 bg-white/10 rounded-full mt-3"><div class="h-2 bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full" style="width:75%"></div></div>
                                 </div>

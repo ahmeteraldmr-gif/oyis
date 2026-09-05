@@ -10,8 +10,120 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="bg-secondary-50 antialiased">
+<body class="bg-secondary-50 antialiased" x-data="{ mobileOpen: false }">
     <div class="flex h-screen overflow-hidden">
+
+        <!-- Mobile Top Navigation Header -->
+        <div class="md:hidden fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm">
+            <div class="flex items-center space-x-3">
+                <button @click="mobileOpen = true" type="button" class="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <h1 class="text-lg font-bold text-accent-blue">Admin Panel</h1>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="h-8 w-8 rounded-full bg-accent-blue flex items-center justify-center text-white font-bold text-xs">
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Backdrop -->
+        <div x-show="mobileOpen" 
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="mobileOpen = false" 
+             class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-40 md:hidden" 
+             style="display: none;"></div>
+
+        <!-- Mobile Sidebar Drawer -->
+        <div x-show="mobileOpen"
+             x-transition:enter="transition ease-in-out duration-300 transform"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in-out duration-300 transform"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="-translate-x-full"
+             class="fixed inset-y-0 left-0 w-72 bg-white z-50 shadow-2xl flex flex-col md:hidden" 
+             style="display: none;">
+            
+            <div class="flex items-center justify-between px-4 pt-5 pb-3 border-b border-gray-100">
+                <h1 class="text-xl font-bold text-accent-blue">Admin Panel</h1>
+                <button @click="mobileOpen = false" class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-4 bg-primary-50 mx-4 my-3 rounded-xl flex items-center space-x-3">
+                <div class="h-10 w-10 rounded-full bg-accent-blue flex items-center justify-center text-white font-bold flex-shrink-0">
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                    <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+                <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    Dashboard
+                </a>
+                
+                @if(auth()->user()->isSuperAdmin())
+                    <a href="{{ route('admin.admins') }}" class="sidebar-link {{ request()->routeIs('admin.admins') ? 'active' : '' }}">
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        Kurumlar (Okullar)
+                    </a>
+                @endif
+                
+                <a href="{{ route('admin.coaches') }}" class="sidebar-link {{ request()->routeIs('admin.coaches') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    Koçlar
+                </a>
+                
+                <a href="{{ route('admin.fields') }}" class="sidebar-link {{ request()->routeIs('admin.fields') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    Alan & Dersler
+                </a>
+                
+                <a href="{{ route('admin.resources') }}" class="sidebar-link {{ request()->routeIs('admin.resources') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    Kaynaklar
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-gray-100">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="sidebar-link w-full text-left text-red-600 hover:bg-red-50 flex items-center">
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Çıkış Yap
+                    </button>
+                </form>
+            </div>
+        </div>
+
         <!-- Sidebar -->
         <div class="hidden md:flex md:flex-shrink-0">
             <div class="flex flex-col w-64">
@@ -78,15 +190,6 @@
                             </svg>
                             Kaynaklar
                         </a>
-                        
-                        {{-- Abonelik paketleri geçici olarak devre dışı
-                        <a href="{{ route('admin.subscriptions') }}" class="sidebar-link {{ request()->routeIs('admin.subscriptions') ? 'active' : '' }}">
-                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-                            </svg>
-                            Koç Yetkileri
-                        </a>
-                        --}}
                     </nav>
                     
                     <!-- Logout -->
@@ -106,9 +209,9 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex flex-col w-0 flex-1 overflow-hidden">
+        <div class="flex flex-col w-0 flex-1 overflow-hidden pt-14 md:pt-0">
             <main class="flex-1 relative overflow-y-auto focus:outline-none">
-                <div class="py-6">
+                <div class="py-4 md:py-6">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                         {{ $slot }}
                     </div>

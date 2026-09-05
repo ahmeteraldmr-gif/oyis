@@ -15,28 +15,28 @@
     @endif
 
     <!-- Öğrenci Profil Kartı -->
-    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-sm p-6 mb-6">
-        <div class="flex items-start justify-between">
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-sm p-4 sm:p-6 mb-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div class="flex items-start gap-4">
-                <div class="flex-shrink-0 h-20 w-20">
+                <div class="flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20">
                     <div
-                        class="h-20 w-20 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                        class="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg">
                         {{ substr($student->name, 0, 1) }}
                     </div>
                 </div>
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $student->name }}</h1>
-                    <div class="space-y-1 text-gray-600">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-1.5">{{ $student->name }}</h1>
+                    <div class="space-y-1 text-xs sm:text-sm text-gray-600">
                         <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            {{ $student->email }}
+                            <span class="truncate">{{ $student->email }}</span>
                         </div>
                         @if($student->phone)
                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
@@ -44,7 +44,7 @@
                             </div>
                         @endif
                         <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
@@ -54,9 +54,9 @@
                 </div>
             </div>
 
-            <div class="flex gap-2">
+            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                 <a href="{{ route('coach.assign', $student->id) }}"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
+                    class="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 font-semibold text-sm shadow-sm transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -64,7 +64,7 @@
                     Ders Ata
                 </a>
                 <a href="{{ route('coach.student.quick-schedule', $student->id) }}"
-                    class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center gap-1.5 shadow-sm transition">
+                    class="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition font-semibold text-sm">
                     <span>⚡ Hızlı Program Hazırla</span>
                 </a>
             </div>
@@ -344,8 +344,8 @@
 
 
     <!-- Tab Navigasyonu -->
-    <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8">
+    <div class="border-b border-gray-200 mb-6 overflow-x-auto">
+        <nav class="-mb-px flex space-x-6 whitespace-nowrap min-w-max">
             <button wire:click="$set('activeTab', 'progress')"
                 class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm {{ $activeTab === 'progress' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
                 Konu Takibi

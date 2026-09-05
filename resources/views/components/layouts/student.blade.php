@@ -44,8 +44,156 @@
     $totalNotificationCount = $pendingScheduleItemsCount + $pendingAssignmentsCount;
 @endphp
 
-<body class="bg-secondary-50 antialiased">
+<body class="bg-secondary-50 antialiased" x-data="{ mobileOpen: false }">
     <div class="flex h-screen overflow-hidden">
+        
+        <!-- Mobile Header Bar -->
+        <div class="md:hidden fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm">
+            <div class="flex items-center space-x-3">
+                <button @click="mobileOpen = true" type="button" class="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <h1 class="text-lg font-bold text-accent-blue">Öğrenci Paneli</h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                @if($totalNotificationCount > 0)
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                @endif
+                <div class="h-8 w-8 rounded-full bg-accent-blue flex items-center justify-center text-white font-bold text-xs">
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Backdrop -->
+        <div x-show="mobileOpen" 
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="mobileOpen = false" 
+             class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-40 md:hidden" 
+             style="display: none;"></div>
+
+        <!-- Mobile Sidebar Drawer -->
+        <div x-show="mobileOpen"
+             x-transition:enter="transition ease-in-out duration-300 transform"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in-out duration-300 transform"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="-translate-x-full"
+             class="fixed inset-y-0 left-0 w-72 bg-white z-50 shadow-2xl flex flex-col md:hidden" 
+             style="display: none;">
+            
+            <div class="flex items-center justify-between px-4 pt-5 pb-3 border-b border-gray-100">
+                <h1 class="text-xl font-bold text-accent-blue">Öğrenci Paneli</h1>
+                <button @click="mobileOpen = false" class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-4 bg-primary-50 mx-4 my-3 rounded-xl flex items-center space-x-3">
+                <div class="h-10 w-10 rounded-full bg-accent-blue flex items-center justify-center text-white font-bold flex-shrink-0">
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                    <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+                <a href="{{ route('student.dashboard') }}" class="sidebar-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    Dashboard
+                </a>
+                
+                <a href="{{ route('student.courses') }}" class="sidebar-link flex items-center justify-between {{ request()->routeIs('student.courses') ? 'active' : '' }}">
+                    <div class="flex items-center">
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        Derslerim
+                    </div>
+                    @if($pendingAssignmentsCount > 0)
+                        <span class="py-0.5 px-2 text-xs font-bold rounded-full bg-indigo-100 text-indigo-800">
+                            {{ $pendingAssignmentsCount }}
+                        </span>
+                    @endif
+                </a>
+                
+                <a href="{{ route('student.schedule') }}" class="sidebar-link flex items-center justify-between {{ request()->routeIs('student.schedule') ? 'active' : '' }}">
+                    <div class="flex items-center">
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Haftalık Programım
+                    </div>
+                    @if($pendingScheduleItemsCount > 0)
+                        <span class="py-0.5 px-2 text-xs font-bold rounded-full bg-red-100 text-red-700">
+                            {{ $pendingScheduleItemsCount }}
+                        </span>
+                    @endif
+                </a>
+                
+                <a href="{{ route('student.resources') }}" class="sidebar-link flex items-center justify-between {{ request()->routeIs('student.resources') ? 'active' : '' }}">
+                    <div class="flex items-center">
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                        Kaynaklarım
+                    </div>
+                    @if($assignedResourcesCount > 0)
+                        <span class="py-0.5 px-2 text-xs font-bold rounded-full bg-blue-100 text-blue-800">
+                            {{ $assignedResourcesCount }}
+                        </span>
+                    @endif
+                </a>
+                
+                <a href="{{ route('student.questions') }}" class="sidebar-link {{ request()->routeIs('student.questions') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    Soru Takibi
+                </a>
+                
+                <a href="{{ route('student.exams') }}" class="sidebar-link {{ request()->routeIs('student.exams') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Deneme Takibi
+                </a>
+                
+                <a href="{{ route('student.study') }}" class="sidebar-link {{ request()->routeIs('student.study') ? 'active' : '' }}">
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    Çalışma Takibi
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-gray-100">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="sidebar-link w-full text-left text-red-600 hover:bg-red-50 flex items-center">
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Çıkış Yap
+                    </button>
+                </form>
+            </div>
+        </div>
+
         <div class="hidden md:flex md:flex-shrink-0">
             <div class="flex flex-col w-64">
                 <div class="flex flex-col flex-grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
@@ -161,7 +309,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col w-0 flex-1 overflow-hidden">
+        <div class="flex flex-col w-0 flex-1 overflow-hidden pt-14 md:pt-0">
             <!-- Top Header Bar with Notifications Bell -->
             <div class="bg-white border-b border-gray-200 px-6 py-3.5 flex items-center justify-between shadow-sm z-10">
                 <div class="flex items-center space-x-3">
