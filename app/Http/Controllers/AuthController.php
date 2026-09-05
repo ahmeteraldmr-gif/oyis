@@ -35,37 +35,37 @@ class AuthController extends Controller
                 // SuperAdmin için abonelik kontrolünü atla
                 if (!$user->isSuperAdmin()) {
                     $subscription = $user->subscription;
-                    if (!$subscription || !$subscription->is_active || ($subscription->end_date && $subscription->end_date->isPast())) {
+                    if ($subscription && (!$subscription->is_active || ($subscription->end_date && $subscription->end_date->isPast()))) {
                         return redirect()->route('subscription.expired');
                     }
                 }
                 return redirect()->intended('/admin/dashboard');
             } elseif ($user->isCoach()) {
-                // Genel dershane abonelik kontrolü (Sadece 'admin' rolünü kontrol et)
-                $admin = \App\Models\User::whereHas('role', function($q) {
+                // Kurum (admin) abonelik kontrolü
+                $admin = $user->creator ?? \App\Models\User::whereHas('role', function($q) {
                     $q->where('name', 'admin');
                 })->first();
                 if ($admin) {
                     $adminSub = $admin->subscription;
-                    if (!$adminSub || !$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast())) {
+                    if ($adminSub && (!$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast()))) {
                         return redirect()->route('subscription.expired');
                     }
                 }
 
-                // Koçun bireysel abonelik kontrolü - süresi dolmuşsa özel sayfaya yönlendir
+                // Koçun bireysel abonelik kontrolü
                 $subscription = $user->subscription;
-                if (!$subscription || !$subscription->is_active || ($subscription->end_date && $subscription->end_date->isPast())) {
+                if ($subscription && (!$subscription->is_active || ($subscription->end_date && $subscription->end_date->isPast()))) {
                     return redirect()->route('subscription.expired');
                 }
                 return redirect()->intended('/coach/dashboard');
             } elseif ($user->isStudent()) {
-                // Genel dershane abonelik kontrolü (Sadece 'admin' rolünü kontrol et)
-                $admin = \App\Models\User::whereHas('role', function($q) {
+                // Kurum (admin) abonelik kontrolü
+                $admin = $user->creator ?? \App\Models\User::whereHas('role', function($q) {
                     $q->where('name', 'admin');
                 })->first();
                 if ($admin) {
                     $adminSub = $admin->subscription;
-                    if (!$adminSub || !$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast())) {
+                    if ($adminSub && (!$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast()))) {
                         return redirect()->route('subscription.expired');
                     }
                 }
