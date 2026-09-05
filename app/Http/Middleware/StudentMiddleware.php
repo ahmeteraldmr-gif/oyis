@@ -32,20 +32,27 @@ class StudentMiddleware
         }
 
         // Genel Dershane (Admin) Abonelik Kontrolü
-        $admin = \App\Models\User::whereHas('role', function($q) {
+        $admin = $user->creator ?? \App\Models\User::whereHas('role', function($q) {
             $q->where('name', 'admin');
         })->first();
 
-        if ($admin) {
-            $adminSub = $admin->subscription;
-            if (!$adminSub || !$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast())) {
-                if ($request->hasHeader('X-Livewire')) {
-                    return response()->json([
-                        'redirect' => url('/subscription-expired'),
-                    ], 200);
-                }
-                return redirect()->route('subscription.expired');
+        if ($admin && $admin->hasExpiredSubscription()) {
+            if ($request->hasHeader('X-Livewire')) {
+                return response()->json([
+                    'redirect' => url('/subscription-expired'),
+                ], 200);
             }
+            return redirect()->route('subscription.expired');
+        }
+
+        // Koç Abonelik Kontrolü (Koçun süresi dolmuşsa öğrenci erişemez)
+        if ($user->hasExpiredCoachSubscription()) {
+            if ($request->hasHeader('X-Livewire')) {
+                return response()->json([
+                    'redirect' => url('/subscription-expired'),
+                ], 200);
+            }
+            return redirect()->route('subscription.expired');
         }
 
         $response = $next($request);

@@ -63,12 +63,15 @@ class AuthController extends Controller
                 $admin = $user->creator ?? \App\Models\User::whereHas('role', function($q) {
                     $q->where('name', 'admin');
                 })->first();
-                if ($admin) {
-                    $adminSub = $admin->subscription;
-                    if ($adminSub && (!$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast()))) {
-                        return redirect()->route('subscription.expired');
-                    }
+                if ($admin && $admin->hasExpiredSubscription()) {
+                    return redirect()->route('subscription.expired');
                 }
+
+                // Bağlı olduğu Koçun abonelik kontrolü (Koçun süresi biterse öğrenci de giriş yapamaz)
+                if ($user->hasExpiredCoachSubscription()) {
+                    return redirect()->route('subscription.expired');
+                }
+
                 return redirect()->intended('/student/dashboard');
             }
         }

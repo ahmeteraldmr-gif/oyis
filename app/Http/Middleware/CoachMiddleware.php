@@ -34,27 +34,21 @@ class CoachMiddleware
         }
 
         // Genel Dershane (Admin) Abonelik Kontrolü
-        $admin = \App\Models\User::whereHas('role', function($q) {
+        $admin = $user->creator ?? \App\Models\User::whereHas('role', function($q) {
             $q->where('name', 'admin');
         })->first();
 
-        if ($admin) {
-            $adminSub = $admin->subscription;
-            if (!$adminSub || !$adminSub->is_active || ($adminSub->end_date && $adminSub->end_date->isPast())) {
-                if ($request->hasHeader('X-Livewire')) {
-                    return response()->json([
-                        'redirect' => url('/subscription-expired'),
-                    ], 200);
-                }
-                return redirect()->route('subscription.expired');
+        if ($admin && $admin->hasExpiredSubscription()) {
+            if ($request->hasHeader('X-Livewire')) {
+                return response()->json([
+                    'redirect' => url('/subscription-expired'),
+                ], 200);
             }
+            return redirect()->route('subscription.expired');
         }
 
-        $subscription = $user->subscription;
-
-        // Koçun kendi erişim yetkisi/abonelik kontrolü
-        if (!$subscription || !$subscription->is_active || ($subscription->end_date && $subscription->end_date->isPast())) {
-            // Livewire AJAX isteği ise JSON redirect dön
+        // Koçun kendi abonelik kontrolü
+        if ($user->hasExpiredSubscription()) {
             if ($request->hasHeader('X-Livewire')) {
                 return response()->json([
                     'redirect' => url('/subscription-expired'),

@@ -150,4 +150,33 @@ class User extends Authenticatable
     {
         return $this->role?->name === 'student';
     }
+
+    public function hasExpiredSubscription(): bool
+    {
+        $sub = $this->subscription;
+        if (!$sub) {
+            return false;
+        }
+        return !$sub->is_active || ($sub->end_date && $sub->end_date->isPast());
+    }
+
+    public function hasExpiredCoachSubscription(): bool
+    {
+        if (!$this->isStudent()) {
+            return false;
+        }
+
+        $coaches = $this->coaches;
+        if ($coaches->isEmpty() && $this->creator && $this->creator->isCoach()) {
+            $coaches = collect([$this->creator]);
+        }
+
+        foreach ($coaches as $coach) {
+            if ($coach->hasExpiredSubscription()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
